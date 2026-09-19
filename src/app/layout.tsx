@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "@/styles/tokens.css";
 import "@/styles/nav.css";
+import "@/styles/footer.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hallelx2.com"),
