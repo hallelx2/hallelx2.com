@@ -247,16 +247,13 @@ tbody tr:last-child td{border-bottom:0}
 .person{display:flex;flex-wrap:wrap;gap:clamp(26px,3.6vw,64px);align-items:stretch;
   background:#fff;border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--line);
   padding:clamp(26px,3vw,44px)}
-/* the portrait is a square block, not a thumbnail: it sets the height of the
-   whole card the way the trap cards in 03 do. Both axes are set explicitly —
-   the <img> carries width/height attributes for layout stability, and
-   aspect-ratio alone does not override them. */
-/* square, and big enough that the text column lands on the same line as its
-   bottom edge. Stretching it to the column height made it a rectangle, which
-   is not the shape this brand uses anywhere else. Both axes are set in CSS:
-   the <img> carries width/height attributes and aspect-ratio does not
-   override them. */
-.person img{flex:none;width:clamp(200px,32vw,460px);height:clamp(200px,32vw,460px);
+/* the portrait stretches to the exact height of the text column, so the two
+   sides of the card read as one aligned block — image bottom on the same line
+   as the CTA. Decision 2026-09-19, overriding the earlier square: the column,
+   not the image, sets the card's height. height:auto is required for
+   align-self:stretch to take effect on a replaced element, and object-fit
+   crops the 900x900 source into whatever rectangle the column makes. */
+.person img{flex:none;width:clamp(200px,32vw,460px);height:auto;align-self:stretch;
   border-radius:var(--r);object-fit:cover;object-position:50% 22%;display:block}
 .person .t{flex:1 1 440px;display:flex;flex-direction:column;
   padding:clamp(2px,.6vw,10px) 0}
