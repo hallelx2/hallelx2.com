@@ -82,3 +82,22 @@
     if (burger) burger.setAttribute('aria-expanded', 'false');
   });
 })();
+
+/* ── FRAGMENT SCROLL, RE-ISSUED ──────────────────────────────────────
+   Landing on a URL with a #hash, the browser's own jump gets lost:
+   html{scroll-behavior:smooth} turns it into an animation, and the
+   reveal/deck scripts (plus hydration, on the Next.js port) re-lay-out
+   the page right after load, which cancels it — so "Numbers" dropped
+   you at the top of the page. Re-issue the jump once everything above
+   has run. If the page is already scrolled (the UA jump survived, or
+   the reader moved), leave it alone. */
+(function () {
+  if (!location.hash) return;
+  var el = document.getElementById(location.hash.slice(1));
+  if (!el) return;
+  requestAnimationFrame(function () {
+    if (window.scrollY > 80) return;
+    if (el.getBoundingClientRect().top < 80) return;
+    el.scrollIntoView({ behavior: 'instant', block: 'start' });
+  });
+})();

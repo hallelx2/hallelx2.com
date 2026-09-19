@@ -42,7 +42,8 @@
   font-size:min(calc((100vw - 2 * var(--gutter)) / var(--K)), calc(1320px / var(--K)));
   line-height:.86;user-select:none;pointer-events:none;color:var(--blue)}
 .foot-mark span{display:block;line-height:.86;letter-spacing:-.05em;white-space:nowrap}
-.foot-mark i{color:var(--line)}
+/* the x2 takes the same blue as hallel — one-colour wordmark (2026-09-19) */
+.foot-mark i{color:inherit}
 .foot-base{display:flex;flex-wrap:wrap;align-items:center;gap:16px;max-width:1320px;margin:0 auto;
   padding:18px 0;border-top:1px solid var(--line);color:var(--muted)}
 .foot-base .r{margin-left:auto;display:flex;gap:16px}

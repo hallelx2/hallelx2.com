@@ -128,7 +128,7 @@
      behind recede so the stack reads as a stack. */
   var deck  = document.querySelector('[data-deck]');
   var cards = deck ? [].slice.call(deck.querySelectorAll('[data-card]')) : [];
-  var n = cards.length, ENTER = 0.36;
+  var n = cards.length;
   var bar   = deck && deck.querySelector('[data-bar]');
   var noEl  = deck && deck.querySelector('[data-no]');
   var totEl = deck && deck.querySelector('[data-tot]');
@@ -146,22 +146,37 @@
     return;
   }
   if (stance) stance.style.height = '190svh';
-  if (deck && n) deck.style.height = ((n * 0.62 + 0.45) * 100) + 'svh';
+  /* 0.78svh of scroll per card (was 0.62): the rise now spreads over more
+     wheel travel, which is half of what made it feel abrupt. */
+  if (deck && n) deck.style.height = ((n * 0.78 + 0.45) * 100) + 'svh';
 
-  var queued = false;
+  /* ── SMOOTHED SCROLL DRIVER ────────────────────────────────────────
+     The choreography used to read scrollY directly, and a wheel moves in
+     ~100px detents — every tick slammed a card a third of the way up the
+     stack. A lerped scroll value (sy) glides between detents and settles
+     in ~150ms, so the same choreography plays smoothly; the entry curve
+     is eased so a card decelerates into its seat instead of stopping
+     dead. The loop only runs while sy is still catching up, and the
+     reduced-motion fold above is untouched. */
+  var ENTER2 = 0.5;                 /* rise portion of a card's segment (was 0.36) */
+  var easeOut = function(x){ x = clamp(x, 0, 1); return 1 - Math.pow(1 - x, 3); };
+  var sy = scrollY, running = false;
+
   function frame(){
-    queued = false;
+    var target = scrollY;
+    sy += (target - sy) * 0.16;
+    if (Math.abs(target - sy) < 0.35) sy = target;
     var doc = document.documentElement;
 
     /* progress hairline */
     if (prog){
       var total = doc.scrollHeight - innerHeight;
-      prog.style.width = (total > 0 ? (scrollY / total) * 100 : 0).toFixed(2) + '%';
+      prog.style.width = (total > 0 ? (sy / total) * 100 : 0).toFixed(2) + '%';
     }
 
     /* hero parallax — clouds lift and swell, copy lifts further and goes */
     if (hero){
-      var hp = clamp(scrollY / Math.max(1, hero.offsetHeight), 0, 1);
+      var hp = clamp(sy / Math.max(1, hero.offsetHeight), 0, 1);
       if (cloud) cloud.style.transform =
         'translate3d(0,' + (-hp * 64).toFixed(1) + 'px,0) scale(' + (1 + hp * 0.10).toFixed(3) + ')';
       if (copy) copy.style.transform = 'translate3d(0,' + (-hp * 96).toFixed(1) + 'px,0)';
@@ -170,7 +185,8 @@
     /* the statement — words light across the pinned scroll */
     if (stance && swords.length){
       var ss = stance.offsetHeight - innerHeight;
-      var sp = ss > 0 ? clamp(-stance.getBoundingClientRect().top / ss, 0, 1) : 0;
+      var stop = stance.getBoundingClientRect().top + scrollY;
+      var sp = ss > 0 ? clamp((sy - stop) / ss, 0, 1) : 0;
       var eased = clamp((sp - 0.10) / 0.62, 0, 1);
       var lit = Math.round(eased * swords.length);
       for (var k = 0; k < swords.length; k++) swords[k].classList.toggle('on', k < lit);
@@ -180,20 +196,21 @@
     /* the deck */
     if (deck && n){
       var span = deck.offsetHeight - innerHeight;
-      var p = span > 0 ? clamp(-deck.getBoundingClientRect().top / span, 0, 1) : 0;
-      var t = ENTER + p * n;
+      var dtop = deck.getBoundingClientRect().top + scrollY;
+      var p = span > 0 ? clamp((sy - dtop) / span, 0, 1) : 0;
+      var t = ENTER2 + p * n;
       var active = clamp(Math.floor(t), 0, n - 1);
       for (var i = 0; i < n; i++){
         var d = t - i, y, sc = 1;
         if (d <= 0){ y = 104; }
-        else if (d < ENTER){ y = 104 * (1 - d / ENTER); }
+        else if (d < ENTER2){ y = 104 * (1 - easeOut(d / ENTER2)); }
         else {
           var past = clamp(d - 1, 0, 2);
           y = -2.2 * past; sc = 1 - 0.035 * past;
         }
         cards[i].style.transform =
           'translate3d(0,' + y.toFixed(2) + '%,0) scale(' + sc.toFixed(3) + ')';
-        cards[i].classList.toggle('live', d >= ENTER * 0.72);
+        cards[i].classList.toggle('live', d >= ENTER2 * 0.72);
       }
       var cat = cards[active].getAttribute('data-cat');
       if (bar){
@@ -203,10 +220,12 @@
       if (noEl)  noEl.textContent = ('0' + (active + 1)).slice(-2);
       if (catEl) catEl.textContent = NAME[cat];
     }
+
+    if (sy !== scrollY){ requestAnimationFrame(frame); }
+    else { running = false; }
   }
-  addEventListener('scroll', function(){
-    if (!queued){ queued = true; requestAnimationFrame(frame); }
-  }, { passive: true });
-  addEventListener('resize', frame);
-  frame();
+  function kick(){ if (!running){ running = true; requestAnimationFrame(frame); } }
+  addEventListener('scroll', kick, { passive: true });
+  addEventListener('resize', function(){ sy = scrollY; kick(); });
+  kick();
 })();
