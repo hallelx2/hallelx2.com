@@ -1,0 +1,458 @@
+
+/* Faces are declared once, in tokens.css. This file had its own copies and
+   they were incomplete: only HafferMono-Medium was registered, so every
+   mono weight snapped to Medium. */
+/* ══════════════════════════════════════════════════════════════════════
+   hallelx2 labs — landing.
+
+   Says what we do in the first six words, then shows the products as a
+   deck of rounded cards that stack as you scroll. Three category
+   colours, all at the same lightness (53%) so none shouts louder:
+   healthcare blue, education green, AI slate. Each carries white text
+   above 4.9:1. Solid fills only — no CSS gradient anywhere.
+   ══════════════════════════════════════════════════════════════════════ */
+/* Tokens live in tokens.css, linked above. Nothing here may declare a
+   :root block — see DESIGN.md "one declaration site". */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--display);font-size:16px;
+  line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+svg{display:block}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.on-c :focus-visible{outline-color:#fff}
+h1,h2,h3{font-weight:500;letter-spacing:-.042em;line-height:1.02}
+h1{font-size:clamp(40px,6.4vw,92px)}
+h2{font-size:clamp(28px,4vw,56px)}
+.lead{font-size:clamp(16px,1.35vw,21px);line-height:1.45}
+.meta{font-family:var(--mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase}
+.num{font-family:var(--mark);font-weight:700;font-variant-numeric:tabular-nums}
+.dim{color:var(--muted)}
+.wm{display:inline-flex;align-items:baseline;letter-spacing:-.02em}
+.wm b{font-family:var(--mono);font-weight:500}
+.wm i{font-family:var(--mark);font-style:normal;font-weight:700;color:var(--blue)}
+.on-c .wm i{color:var(--sky)}
+
+.cta{display:inline-flex;align-items:stretch;gap:5px;min-height:46px;font-family:var(--mono);
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.cta .lbl{display:flex;align-items:center;padding:0 20px;border-radius:var(--pill);
+  background:var(--blue);color:#fff;transition:background .3s var(--soft)}
+.cta .go{display:flex;align-items:center;justify-content:center;width:46px;border-radius:var(--pill);
+  background:var(--blue);color:#fff;transition:transform .45s var(--ease),background .3s var(--soft)}
+.cta .go svg{width:16px;height:16px}
+.cta:hover .lbl,.cta:hover .go{background:var(--blue-2)}
+.cta:hover .go{transform:translateX(4px)}
+.cta--light .lbl{background:#fff;color:var(--ink)}
+.cta--light .go{background:#fff;color:var(--blue)}
+.cta--light:hover .lbl,.cta--light:hover .go{background:var(--sky)}
+.cta--ghost .lbl,.cta--ghost .go{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px var(--sky)}
+.cta--ghost:hover .lbl,.cta--ghost:hover .go{background:var(--blue-2);box-shadow:inset 0 0 0 1px #fff}
+
+.sec{padding:clamp(60px,7.5vw,120px) var(--gutter)}
+.wrap{max-width:1320px;margin:0 auto}
+.eyebrow{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;padding-bottom:15px;
+  border-bottom:1px solid var(--ink);margin-bottom:clamp(28px,3.4vw,50px)}
+.eyebrow .n{font-family:var(--mark);font-weight:700;font-size:12px;color:var(--blue)}
+.eyebrow .k{font-family:var(--mono);font-size:12px;letter-spacing:.13em;text-transform:uppercase;
+  line-height:1;font-weight:400}
+.eyebrow .note{flex:1 1 auto;text-align:right;font-size:13.5px;color:var(--muted);line-height:1.4;
+  min-width:min(100%,28ch)}
+
+/* ── nav ─── lives in assets/nav.css ──────────────────────────────── */
+
+/* ══ HERO — short. The clouds are back. ══════════════════════════════ */
+.hero{position:relative;border-radius:var(--r);overflow:hidden;
+  margin:max(var(--gutter),var(--nav-clear)) var(--gutter) var(--gutter);
+  background:var(--blue);color:#fff;
+  min-height:min(820px,calc(100svh - var(--nav-clear) - var(--gutter)));
+  display:flex;flex-direction:column;
+  /* the bottom padding stops above the flight path: the plane sits at
+     bottom:clamp(32px,9.5%,100px) and is ~70px tall, so 15vh keeps the
+     button row clear of it while still landing on the cloud band */
+  padding:clamp(60px,8vh,100px) clamp(24px,3.4vw,60px) clamp(110px,15vh,170px)}
+.hero > *{position:relative;z-index:3}
+/* cover, never 100% 100%: the mask keeps the asset's 5.42:1 aspect at every
+   viewport and crops the overflow instead of squashing it. Bottom-anchored so
+   the dense base stays put and the sparse top is what gets trimmed. */
+.clouds{position:absolute;left:-3%;right:-3%;bottom:-1%;height:36%;z-index:1;color:#fff;
+  -webkit-mask:url('/assets/img/hero-clouds.png') bottom center/cover no-repeat;
+          mask:url('/assets/img/hero-clouds.png') bottom center/cover no-repeat;
+  background:currentColor;animation:drift 54s linear infinite alternate}
+@keyframes drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-4%,-2%,0)}}
+.screen{position:absolute;inset:0;z-index:2;opacity:.13;pointer-events:none;
+  background:url('/assets/img/halftone.svg') repeat;background-size:4px 4px}
+/* the flight sits IN the cloud band, not in the empty sky above it — the
+   clouds occupy the bottom 36% of the hero, so bottom:22% puts the plane
+   over them rather than over flat blue */
+.flight{position:absolute;bottom:clamp(32px,9.5%,100px);left:0;z-index:2;display:flex;
+  align-items:center;white-space:nowrap;animation:fly 30s linear infinite}
+@keyframes fly{from{transform:translateX(104vw)}to{transform:translateX(-62vw)}}
+/* the plane is a member of the mark set, not a picture: 48x48, fill none,
+   stroke currentColor at 2, round caps — the same construction as
+   voxtar.svg, llmgate.svg and the rest. A filled silhouette read as a
+   foreign object on a page where every other glyph is line art.
+   It points right in the source and is flipped, because the flight
+   animation travels right to left. */
+.flight svg{width:clamp(44px,4.8vw,70px);height:auto;color:oklch(24% .1 258);flex:none;
+  transform:scaleX(-1);filter:drop-shadow(0 2px 5px oklch(23.6% .002 68 / .28))}
+.flight .tow{width:clamp(14px,1.8vw,28px);height:1px;background:oklch(24% .1 258);flex:none}
+.flight /* ── the plane flies BETWEEN two cloud layers ──────────────────────────
+   One mask cannot occlude a sibling that paints after it, so the cloud
+   band is drawn twice: `.clouds` behind the flight (z1, inside cloud-wrap)
+   and `.clouds-front` in front of it (z4). The front copy is scaled up and
+   anchored differently, so its tufts do not line up with the back copy —
+   the plane disappears into a near cloud and comes out of a gap.
+
+   It has to be a sibling of `.flight`, not a child of `.cloud-wrap`:
+   cloud-wrap is positioned with a z-index, so it opens a stacking context
+   and nothing inside it can rise above a z-index 2 element outside it.
+
+   The front layer also drifts faster than the back one, which is what
+   reads as depth rather than as two copies of the same picture. */
+.clouds-front{position:absolute;left:-6%;right:-6%;bottom:-1%;height:27%;z-index:4;
+  color:#fff;pointer-events:none;
+  -webkit-mask:url('/assets/img/hero-clouds.png') bottom left/168% auto no-repeat;
+          mask:url('/assets/img/hero-clouds.png') bottom left/168% auto no-repeat;
+  background:currentColor;animation:driftfront 31s linear infinite alternate}
+@keyframes driftfront{from{transform:translate3d(0,0,0)}to{transform:translate3d(-9%,-1%,0)}}
+
+.banner{background:#fff;color:var(--ink);padding:5px 11px;border-radius:3px;
+  font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.04em;
+  box-shadow:0 2px 12px oklch(23.6% .002 68 / .22)}
+.hero h1{max-width:none;margin-bottom:0;text-wrap:pretty;
+  font-size:clamp(34px,6.2vw,88px);line-height:1.02;letter-spacing:-.035em}
+.hero .lead{max-width:78ch;color:#fff;margin-bottom:0}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ── buttons on the cloud band ──────────────────────────────────────────
+   Measured against both backgrounds the row crosses:
+
+     white pill vs white cloud   1.00:1   invisible
+     ghost outline vs cloud      1.13:1   invisible
+     navy vs sky blue            3.05:1   ok
+     navy vs white cloud        16.58:1   ok
+
+   So navy is the only value that holds on both. Primary is a solid navy
+   pill with a white label (16.58:1); secondary keeps a white fill for its
+   label (16.63:1) and takes a navy outline, which is what gives it an edge
+   once it is over cloud. */
+.hero .cta--light .lbl{background:var(--ink-navy);color:#fff}
+.hero .cta--light .go{background:var(--ink-navy);color:#fff}
+.hero .cta--light:hover .lbl,.hero .cta--light:hover .go{background:var(--blue)}
+.hero .cta--ghost .lbl{background:#fff;color:var(--ink-navy);
+  box-shadow:inset 0 0 0 1.5px var(--ink-navy)}
+.hero .cta--ghost .go{background:#fff;color:var(--ink-navy);
+  box-shadow:inset 0 0 0 1.5px var(--ink-navy)}
+.hero .cta--ghost:hover .lbl,.hero .cta--ghost:hover .go{background:var(--sky)}
+
+/* ── the hero is one column, and the headline is the thing that fills it ──
+   A portfolio grid was tried on the right and removed: the answer to an empty
+   half is bigger type, not another object. The measure is the hero's own
+   padding box, so the headline runs the full width at every size. */
+
+/* ══ THE DECK — rounded cards, stacked, coloured by category ═════════ */
+.deck{position:relative;background:var(--paper)}
+.deck-pin{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;
+  padding:clamp(88px,11vh,126px) var(--gutter) clamp(22px,3vw,40px);overflow:hidden}
+.deck-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;padding-bottom:14px;
+  max-width:1320px;width:100%;align-self:center}
+.deck-head .k{font-family:var(--mono);font-size:12px;letter-spacing:.13em;text-transform:uppercase}
+.deck-head .ct{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--muted)}
+.deck-bar{height:2px;background:var(--line);position:relative;max-width:1320px;width:100%;
+  align-self:center;flex:none}
+.deck-bar em{position:absolute;inset:0 auto 0 0;width:0;background:var(--blue);
+  transition:background .5s var(--soft)}
+.deck-stack{position:relative;flex:1;margin-top:clamp(20px,2.6vw,38px);max-width:1320px;width:100%;
+  align-self:center}
+.dcard{position:absolute;inset:0;border-radius:var(--r);overflow:hidden;color:#fff;
+  display:flex;flex-direction:column;padding:clamp(26px,3.2vw,52px);
+  transform:translate3d(0,104%,0);transform-origin:50% 0;will-change:transform;
+  box-shadow:inset 0 0 0 1px oklch(100% 0 0 / .16)}
+.dcard.c-hc{background:var(--blue)}
+.dcard.c-ed{background:var(--green)}
+.dcard.c-ai{background:var(--slate)}
+.dcard .top{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.11em;text-transform:uppercase}
+.dcard .top .cat{padding:5px 11px;border-radius:var(--pill);box-shadow:inset 0 0 0 1px var(--sky);
+  color:#fff}
+.dcard .top .stage{color:var(--sky)}
+.dcard .top .no{margin-left:auto;font-family:var(--mark);font-weight:700;color:var(--sky)}
+.dcard .mk{width:clamp(44px,4.4vw,64px);height:clamp(44px,4.4vw,64px);margin-top:auto;
+  background:currentColor;color:#fff;
+  -webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.dcard h3{font-size:clamp(28px,3.6vw,52px);font-weight:500;letter-spacing:-.04em;line-height:1;
+  margin:clamp(16px,1.8vw,26px) 0 clamp(10px,1.2vw,16px)}
+.dcard p{font-size:clamp(14.5px,1.25vw,18px);line-height:1.45;max-width:52ch}
+.dcard .award{display:inline-block;margin-top:clamp(14px,1.6vw,22px);padding:9px 14px;
+  border-radius:10px;background:#fff;color:var(--ink);font-family:var(--mono);font-size:11px;
+  letter-spacing:.04em;line-height:1.45;max-width:58ch}
+.dcard .award b{font-weight:500}
+/* Each card opens its own page. Cards are absolutely stacked, so the
+   front card is the highest-index one that has entered — later siblings
+   paint above earlier ones, which puts the visible card's link on top. */
+.dcard .dlink{align-self:flex-start;display:inline-flex;align-items:center;gap:9px;
+  margin-top:clamp(16px,1.9vw,26px);padding:11px 18px;border-radius:var(--pill);
+  background:#fff;color:var(--ink);font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.11em;text-transform:uppercase;
+  transition:background .25s var(--soft),transform .4s var(--ease)}
+.dcard .dlink svg{width:13px;height:13px;transition:transform .4s var(--ease)}
+.dcard .dlink:hover{background:var(--sky)}
+.dcard .dlink:hover svg{transform:translateX(3px)}
+@media (max-width:760px){.dcard{padding:24px}.dcard p{font-size:14.5px}}
+
+/* ══ metric ══════════════════════════════════════════════════════════ */
+.metric{background:#fff;border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--line);
+  padding:clamp(24px,3vw,46px)}
+.metric .say{font-size:clamp(19px,2.1vw,29px);letter-spacing:-.03em;line-height:1.2;max-width:25ch;
+  margin-bottom:clamp(20px,2.4vw,32px)}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+caption{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--muted);padding-bottom:12px}
+th,td{text-align:right;padding:11px 8px;border-bottom:1px solid var(--line);font-size:15px}
+th:first-child,td:first-child{text-align:left;padding-left:0}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);font-weight:400}
+td:last-child{color:var(--blue);font-weight:500;padding-right:0}
+tbody tr:last-child td{border-bottom:0}
+.metric .foot{margin-top:15px;font-size:13.5px;color:var(--muted)}
+
+/* ══ method ══════════════════════════════════════════════════════════ */
+.traps{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(24px,3vw,40px)}
+.trap{flex:1 1 280px;background:#fff;border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--line);
+  padding:clamp(22px,2.4vw,34px)}
+.trap .n{font-family:var(--mark);font-weight:700;font-size:12px;color:var(--blue);display:block;
+  margin-bottom:12px}
+.trap p{font-size:14.5px;line-height:1.5;color:var(--muted)}
+.trap b{color:var(--ink);font-weight:500}
+.against{margin-top:12px;padding:clamp(22px,2.4vw,36px);background:var(--blue);color:#fff;
+  border-radius:var(--r)}
+.against .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--sky);display:block;margin-bottom:12px}
+.against p{font-size:clamp(17px,1.8vw,24px);line-height:1.28;letter-spacing:-.025em;max-width:40ch}
+
+/* ══ ask + footer ════════════════════════════════════════════════════ */
+/* ── a row of headline figures with a way through ─────────────────── */
+.strip{display:flex;flex-wrap:wrap;align-items:center;gap:clamp(24px,4vw,56px);
+  background:#fff;border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--line);
+  padding:clamp(26px,3vw,44px)}
+.strip .figs{display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);flex:1 1 400px}
+.strip .fig .v{display:block;font-family:var(--mark);font-weight:700;
+  font-size:clamp(28px,3.4vw,46px);line-height:1;color:var(--blue);
+  font-variant-numeric:tabular-nums}
+.strip .fig .l{display:block;margin-top:10px;font-size:14px;line-height:1.45;
+  color:var(--muted);max-width:22ch}
+
+/* ── the person behind it ─────────────────────────────────────────────── */
+.person{display:flex;flex-wrap:wrap;gap:clamp(26px,3.6vw,64px);align-items:stretch;
+  background:#fff;border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--line);
+  padding:clamp(26px,3vw,44px)}
+/* the portrait is a square block, not a thumbnail: it sets the height of the
+   whole card the way the trap cards in 03 do. Both axes are set explicitly —
+   the <img> carries width/height attributes for layout stability, and
+   aspect-ratio alone does not override them. */
+/* square, and big enough that the text column lands on the same line as its
+   bottom edge. Stretching it to the column height made it a rectangle, which
+   is not the shape this brand uses anywhere else. Both axes are set in CSS:
+   the <img> carries width/height attributes and aspect-ratio does not
+   override them. */
+.person img{flex:none;width:clamp(200px,32vw,460px);height:clamp(200px,32vw,460px);
+  border-radius:var(--r);object-fit:cover;object-position:50% 22%;display:block}
+.person .t{flex:1 1 440px;display:flex;flex-direction:column;
+  padding:clamp(2px,.6vw,10px) 0}
+.person .t .nm{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--muted);display:block;
+  margin-bottom:clamp(14px,1.6vw,22px)}
+.person .t .say{font-size:clamp(24px,2.7vw,38px);line-height:1.14;letter-spacing:-.03em;
+  max-width:18ch;margin-bottom:clamp(14px,1.6vw,22px)}
+.person .t .say .dim{color:var(--muted)}
+.person .t .sub{font-size:clamp(15px,1.2vw,17px);line-height:1.6;color:var(--muted);
+  max-width:52ch;margin-bottom:clamp(20px,2.4vw,34px)}
+.person .t .sub b{color:var(--ink);font-weight:500}
+/* the facts sit on the bottom edge of the text column, so the column reaches
+   the full height of the portrait instead of floating in the middle */
+.person .t .facts{display:flex;flex-wrap:wrap;gap:clamp(18px,2.6vw,40px);
+  margin-top:auto;padding-top:clamp(18px,2.2vw,30px);
+  border-top:1px solid var(--line);margin-bottom:clamp(20px,2.4vw,32px)}
+.person .t .facts div{flex:0 1 auto}
+.person .t .facts .v{display:block;font-family:var(--mark);font-weight:700;
+  font-size:clamp(20px,2vw,28px);line-height:1;color:var(--blue);
+  font-variant-numeric:tabular-nums}
+.person .t .facts .l{display:block;margin-top:8px;font-size:13px;line-height:1.45;
+  color:var(--muted);max-width:18ch}
+.person .t .cta{align-self:flex-start}
+@media (max-width:640px){
+  .person img{width:100%;height:auto;aspect-ratio:1}
+}
+
+.ask{margin:0 var(--gutter);border-radius:var(--r);background:var(--blue);color:#fff;
+  padding:clamp(60px,8vw,120px) clamp(24px,3.4vw,60px)}
+.ask .in{max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,80px)}
+.ask .l{flex:1 1 400px}
+.ask h2{max-width:14ch;margin-bottom:20px}
+.ask .l p{max-width:44ch;margin-bottom:26px}
+.ask .r{flex:1 1 290px}
+.ask dl{border-top:1px solid var(--rule)}
+.ask dt{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--sky);padding-top:15px}
+.ask dd{font-size:15px;line-height:1.5;padding:4px 0 15px;border-bottom:1px solid var(--rule)}
+.foot{margin-top:clamp(40px,5vw,76px);padding:clamp(40px,5vw,70px) var(--gutter) 0;overflow:hidden}
+/* a grid, not a flex row: four 145px columns in a 1320px flex row packed
+   into the left half and left 580px of dead air on the right. The columns
+   are now equal fractions of the full width, with the statement taking the
+   first and widest one. */
+.foot-nav{max-width:1320px;margin:0 auto;display:grid;
+  grid-template-columns:minmax(260px,1.6fr) repeat(4,minmax(120px,1fr));
+  gap:clamp(26px,3vw,48px);
+  padding-bottom:clamp(30px,3.6vw,48px);border-bottom:1px solid var(--line)}
+.foot-say{max-width:34ch}
+.foot-say .bn{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:13px}
+.foot-say p{font-size:clamp(15px,1.15vw,16.5px);line-height:1.55;color:var(--muted);
+  margin-bottom:clamp(16px,1.8vw,22px)}
+.foot-say p b{color:var(--ink);font-weight:500}
+.foot-say .em{font-size:14px;color:var(--blue);border-bottom:1px solid transparent;
+  transition:border-color .22s var(--soft)}
+.foot-say .em:hover{border-bottom-color:var(--blue)}
+@media (max-width:900px){
+  .foot-nav{grid-template-columns:repeat(2,minmax(120px,1fr))}
+  .foot-say{grid-column:1 / -1;max-width:46ch}
+}
+.foot-nav h3{font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:13px}
+.foot-nav h3 .sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:7px;
+  vertical-align:0}
+.foot-nav ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.foot-nav a{font-size:14px;color:var(--muted);transition:color .22s var(--soft)}
+.foot-nav a:hover{color:var(--ink)}
+/* the mark is sized to the container rather than the viewport, so it lands
+   on the right edge instead of stopping short of it. K is the measured
+   width-to-font-size ratio of "hallelx2" in this face at -.05em tracking;
+   see SOURCES.md for the measurement. */
+.foot-mark{--K:4.667;max-width:1320px;margin:clamp(24px,3vw,44px) auto 0;
+  padding-bottom:clamp(6px,.8vw,14px);
+  font-size:min(calc((100vw - 2 * var(--gutter)) / var(--K)), calc(1320px / var(--K)));
+  line-height:.86;user-select:none;pointer-events:none;color:var(--blue)}
+.foot-mark span{display:block;line-height:.86;letter-spacing:-.05em;white-space:nowrap}
+.foot-mark i{color:var(--line)}
+.foot-base{display:flex;flex-wrap:wrap;align-items:center;gap:16px;max-width:1320px;margin:0 auto;
+  padding:18px 0;border-top:1px solid var(--line);color:var(--muted)}
+.foot-base .r{margin-left:auto;display:flex;gap:16px}
+.foot-base a:hover{color:var(--ink)}
+
+/* ══ THE STATEMENT — words light muted → full as you scroll ═════════
+   Both states are legible on their own: muted is 6.00:1 on white and
+   full is 16.63:1. The reveal moves emphasis, never legibility, so a
+   word that has not lit yet is still text you can read. */
+.stance{position:relative;background:#fff}
+.stance-pin{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;
+  justify-content:center;padding:clamp(88px,11vh,124px) var(--gutter) clamp(40px,6vh,80px)}
+.stance-in{max-width:1320px;margin:0 auto;width:100%}
+.stance .k{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:clamp(20px,2.6vw,36px)}
+.stance p{font-size:clamp(27px,4.3vw,62px);font-weight:500;letter-spacing:-.036em;
+  line-height:1.14;max-width:20ch}
+.stance .sw{color:var(--muted);transition:color .22s linear}
+.stance .sw.on{color:var(--ink)}
+.stance-bar{margin-top:clamp(26px,3.4vw,48px);height:2px;background:var(--line);position:relative;
+  max-width:1320px;width:100%}
+.stance-bar em{position:absolute;inset:0 auto 0 0;width:0;background:var(--blue)}
+
+/* ── the highlight sweep: a marker drawn behind a phrase on entry.
+      Ink reads 16.63 on white and 14.78 on the pale, so the text is
+      never less legible mid-sweep than it was before. ───────────────── */
+.hl{position:relative;display:inline;color:var(--ink)}
+.hl::before{content:'';position:absolute;inset:-.14em -.14em;background:var(--pale);
+  transform:scaleX(0);transform-origin:0 50%;z-index:-1;
+  transition:transform .74s var(--ease)}
+.hl.on::before{transform:scaleX(1)}
+.hl-host{position:relative;z-index:0}
+
+/* ══ THE WIPE ═══════════════════════════════════════════════════════════
+   A solid block sweeps in over a line, then off the other side, and the
+   line it uncovers has gone from muted to ink. Both text states are
+   measured against white: muted 6.00, ink 16.63 — so the line is legible
+   whether or not the animation ever runs.
+
+   It fails open. At rest the bar is scaleX(0) and the text is already ink;
+   JS adds .arm to mute the text and .go to play it. If the script dies,
+   the heading is simply a heading. */
+.wl{position:relative;display:inline-block}
+.wt{position:relative;z-index:0}
+.wb{position:absolute;inset:-.06em -.12em;z-index:1;display:block;
+  background:var(--blue);transform:scaleX(0);transform-origin:0 50%;
+  pointer-events:none}
+.wl.arm .wt{color:var(--muted)}
+.wl.go .wt{animation:wipeInk .86s var(--ease) var(--d,0s) both}
+.wl.go .wb{animation:wipeBar .86s var(--ease) var(--d,0s) both}
+@keyframes wipeBar{
+  0%{transform:scaleX(0);transform-origin:0 50%}
+  46%{transform:scaleX(1);transform-origin:0 50%}
+  54%{transform:scaleX(1);transform-origin:100% 50%}
+  100%{transform:scaleX(0);transform-origin:100% 50%}}
+/* the swap happens while the bar covers the line, so it is never seen */
+@keyframes wipeInk{0%,49%{color:var(--muted)}50%,100%{color:var(--ink)}}
+.on-c .hl{color:#fff}
+.on-c .hl::before{background:var(--blue-2)}
+
+/* ══ SCROLL MOTION ════════════════════════════════════════════════════
+   Four scroll-linked moves, all cheap and all reversible:
+   a progress hairline, hero parallax, card contents that arrive after
+   their card, and section blocks that rise once. Entrances go from
+   absent to full — text is never left sitting at a faded mid-contrast. */
+.prog{position:fixed;top:0;left:0;height:2px;width:0;background:var(--blue);z-index:70;
+  will-change:width}
+.cloud-wrap{position:absolute;inset:0;z-index:1;pointer-events:none;will-change:transform}
+/* headline, lead and buttons are the three horizontal rows; space-between
+   over the full height puts equal air between them and carries the button
+   row down onto the clouds */
+.hero-copy{position:relative;z-index:3;will-change:transform;flex:1;
+  display:flex;flex-direction:column;justify-content:space-between}
+
+/* card contents arrive a beat after the card itself */
+.dcard .top,.dcard .mk,.dcard h3,.dcard p,.dcard .award,.dcard .dlink{
+  opacity:0;transform:translateY(18px);
+  transition:opacity .5s var(--soft),transform .62s var(--ease)}
+.dcard.live .top{opacity:1;transform:none;transition-delay:.04s}
+.dcard.live .mk{opacity:1;transform:none;transition-delay:.10s}
+.dcard.live h3{opacity:1;transform:none;transition-delay:.16s}
+.dcard.live p{opacity:1;transform:none;transition-delay:.22s}
+.dcard.live .award{opacity:1;transform:none;transition-delay:.30s}
+.dcard.live .dlink{opacity:1;transform:none;transition-delay:.36s}
+
+/* section blocks rise once, children staggered */
+[data-reveal] > *{opacity:0;transform:translateY(22px);
+  transition:opacity .62s var(--soft),transform .74s var(--ease)}
+[data-reveal].in > *{opacity:1;transform:none}
+[data-reveal].in > *:nth-child(2){transition-delay:.07s}
+[data-reveal].in > *:nth-child(3){transition-delay:.14s}
+[data-reveal].in > *:nth-child(4){transition-delay:.21s}
+[data-reveal].in > *:nth-child(5){transition-delay:.28s}
+[data-reveal].in > *:nth-child(6){transition-delay:.35s}
+tbody[data-reveal] > tr{opacity:0;transform:translateY(14px);
+  transition:opacity .5s var(--soft),transform .6s var(--ease)}
+tbody[data-reveal].in > tr{opacity:1;transform:none}
+tbody[data-reveal].in > tr:nth-child(2){transition-delay:.08s}
+tbody[data-reveal].in > tr:nth-child(3){transition-delay:.16s}
+tbody[data-reveal].in > tr:nth-child(4){transition-delay:.24s}
+tbody[data-reveal].in > tr:nth-child(5){transition-delay:.32s}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .deck{height:auto!important}
+  .deck-pin{position:static;height:auto;padding-bottom:clamp(50px,6vw,90px)}
+  .deck-stack{margin-top:22px}
+  .dcard{position:relative;transform:none!important;min-height:0;margin-bottom:12px}
+  .dcard .mk{margin-top:26px}
+  .flight{transform:translateX(44vw)}
+  .prog{display:none}
+  .dcard .top,.dcard .mk,.dcard h3,.dcard p,.dcard .award,
+  [data-reveal] > *,tbody[data-reveal] > tr{opacity:1!important;transform:none!important}
+  .stance{height:auto!important}
+  .stance-pin{position:static;height:auto;padding-bottom:clamp(50px,7vw,96px)}
+  .stance .sw{color:var(--ink)}
+  .hl::before{transform:scaleX(1)!important}
+  .wb{display:none}
+  .wl .wt{color:var(--ink)!important;animation:none!important}
+}

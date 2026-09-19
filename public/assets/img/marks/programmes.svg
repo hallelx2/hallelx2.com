@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<title>Programmes — a schedule of cohorts</title>
+<rect x="7" y="11" width="34" height="30" rx="3"/>
+<path d="M7 20h34"/>
+<path d="M16 7v7"/><path d="M32 7v7"/>
+<path d="M14 28h7"/><path d="M27 28h7" opacity=".45"/>
+<path d="M14 34h7" opacity=".45"/>
+</svg>

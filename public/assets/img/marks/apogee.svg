@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<title>Apogee — routing across provisioned GPUs</title>
+<path d="M6 38 C 14 12, 34 12, 42 38"/>
+<circle cx="24" cy="13" r="3.4"/><circle cx="6" cy="38" r="3.4"/><circle cx="42" cy="38" r="3.4"/>
+<path d="M24 16.4V30" opacity=".5"/><path d="M9 36 18 31" opacity=".5"/><path d="M39 36 30 31" opacity=".5"/>
+</svg>

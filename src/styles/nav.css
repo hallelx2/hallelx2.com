@@ -1,0 +1,126 @@
+/* ══════════════════════════════════════════════════════════════════════
+   hallelx2 labs — the navigation.
+
+   ONE source of truth. This file is linked by every page; the markup
+   comes from nav_html() in build-product-pages.py. It used to live in
+   four places (product.css plus an inline copy in the landing, and three
+   separate NAV constants) and it had already drifted — "Numbers" was in
+   two of the four. Do not re-inline it.
+
+   The dropdown follows the pattern on micro1.ai, checked in their CSS:
+   opens on hover with no delay, a translucent blurred panel with a 2px
+   border, rich items that carry a one-line description, a chevron that
+   rotates, and — the part everybody forgets — an invisible bridge over
+   the gap so the pointer can travel diagonally from the trigger into the
+   panel without it closing.
+
+   Hover alone is not enough: the trigger is a real <button>, the panel
+   also opens on :focus-within, and nav.js handles click, Escape and
+   outside-click so a keyboard or a touchscreen can reach every link.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:60;display:flex;
+  align-items:center;gap:6px;padding:6px;border-radius:var(--pill);
+  width:min(880px,calc(100vw - 24px));background:var(--accent);color:#fff;
+  box-shadow:inset 0 0 0 1px var(--rule)}
+.nav .brand{display:flex;align-items:center;gap:8px;padding:0 13px;height:38px;flex:none;
+  font-size:15px}
+.nav .brand svg{color:var(--sky)}
+
+.nav .links{display:flex;align-items:center;gap:2px;margin:0 auto}
+.navitem{position:relative;display:flex}
+
+/* trigger + plain link share one look */
+.navlink{display:flex;align-items:center;gap:7px;height:38px;padding:0 15px;
+  border-radius:var(--pill);font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--sky);background:none;border:0;cursor:pointer;
+  white-space:nowrap;transition:background .25s var(--soft),color .25s var(--soft)}
+.navlink:hover,.navlink[aria-expanded="true"]{background:rgba(0,0,0,.22);color:#fff}
+.navlink[aria-current="page"]{color:#fff}
+.navlink .chev{width:9px;height:9px;flex:none;transition:transform .2s var(--soft)}
+.navitem.open .navlink .chev{transform:rotate(180deg)}
+
+/* the bridge: covers the gap between trigger and panel so a diagonal
+   pointer move does not close the menu mid-travel */
+.navitem .bridge{position:absolute;top:100%;left:-24px;right:-24px;height:22px;display:none}
+.navitem.open .bridge{display:block}
+
+/* ── the panel ────────────────────────────────────────────────────────── */
+.menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(-6px);
+  opacity:0;visibility:hidden;pointer-events:none;
+  background:oklch(100% 0 0 / .90);-webkit-backdrop-filter:blur(15px);backdrop-filter:blur(15px);
+  border:2px solid var(--line);border-radius:14px;padding:10px;
+  box-shadow:0 18px 50px -12px oklch(23.6% .002 68 / .22);
+  transition:opacity .22s var(--soft),transform .28s var(--ease),visibility .22s}
+.navitem.open .menu{opacity:1;visibility:visible;pointer-events:auto;
+  transform:translateX(-50%) translateY(0)}
+.menu-cols{display:flex;gap:10px}
+.menu-col{display:flex;flex-direction:column;min-width:206px}
+.menu-h{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);padding:8px 10px 6px;display:flex;align-items:center;gap:7px}
+.menu-h .sw{width:7px;height:7px;border-radius:2px;flex:none}
+
+.mi{display:flex;align-items:flex-start;gap:11px;padding:9px 10px;border-radius:10px;
+  transition:background-color .3s var(--soft)}
+.mi:hover{background:var(--pale)}
+.mi .mk{flex:none;width:19px;height:19px;margin-top:1px;background:var(--accent);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-position:center;mask-position:center;
+  -webkit-mask-size:contain;mask-size:contain}
+.mi b{display:block;font-weight:500;font-size:14.5px;letter-spacing:-.01em;color:var(--ink);
+  line-height:1.25}
+.mi i{display:block;font-style:normal;font-size:12.5px;line-height:1.4;color:var(--muted);
+  margin-top:2px;max-width:24ch}
+
+/* ── the CTA, with micro1's two-layer label swap ──────────────────────── */
+.nav .end{position:relative;display:flex;align-items:center;justify-content:center;height:38px;
+  padding:0 17px;border-radius:var(--pill);background:#fff;color:var(--ink);flex:none;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  overflow:hidden;white-space:nowrap;transition:background .25s var(--soft)}
+.nav .end:hover{background:var(--sky)}
+.nav .end span{display:block;transition:transform .34s var(--ease),opacity .34s var(--soft)}
+.nav .end span + span{position:absolute;transform:translateY(120%);opacity:0}
+.nav .end:hover span{transform:translateY(-120%);opacity:0}
+.nav .end:hover span + span{transform:translateY(0);opacity:1}
+
+/* ── mobile ───────────────────────────────────────────────────────────── */
+.nav .burger{display:none;align-items:center;justify-content:center;width:38px;height:38px;
+  border-radius:var(--pill);background:none;border:0;cursor:pointer;color:var(--sky);flex:none}
+.nav .burger svg{width:16px;height:16px}
+.nav .burger rect{transition:transform .3s var(--ease),opacity .2s}
+.nav.open .burger rect:nth-child(1){transform:translateY(5px) rotate(45deg)}
+.nav.open .burger rect:nth-child(2){opacity:0}
+.nav.open .burger rect:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+
+@media (max-width:900px){
+  .nav{width:calc(100vw - 24px)}
+  .nav .burger{display:flex;order:3}
+  /* the CTA stays on mobile — hiding it removes the only conversion path
+     on the device most people will read this on */
+  .nav .end{margin-left:auto;order:2;padding:0 13px;font-size:10px}
+  .nav .links{position:fixed;top:78px;left:12px;right:12px;margin:0;
+    flex-direction:column;align-items:stretch;gap:2px;
+    background:oklch(100% 0 0 / .95);-webkit-backdrop-filter:blur(15px);backdrop-filter:blur(15px);
+    border:2px solid var(--line);border-radius:16px;padding:10px;
+    box-shadow:0 18px 50px -12px oklch(23.6% .002 68 / .22);
+    opacity:0;visibility:hidden;transform:translateY(-8px);
+    max-height:calc(100svh - 104px);overflow-y:auto;
+    transition:opacity .22s var(--soft),transform .28s var(--ease),visibility .22s}
+  .nav.open .links{opacity:1;visibility:visible;transform:none}
+  .navitem{flex-direction:column}
+  .navlink{color:var(--ink);justify-content:space-between;height:42px;font-size:11px}
+  .navlink:hover,.navlink[aria-expanded="true"]{background:var(--pale);color:var(--ink)}
+  /* on mobile the panel is just a nested list, always in flow when open */
+  .menu{position:static;transform:none;opacity:1;visibility:visible;pointer-events:auto;
+    background:none;border:0;box-shadow:none;padding:0 0 6px;backdrop-filter:none;
+    -webkit-backdrop-filter:none;display:none}
+  .navitem.open .menu{display:block;transform:none}
+  .menu-cols{flex-direction:column;gap:2px}
+  .menu-col{min-width:0}
+  .navitem .bridge{display:none!important}
+  .mi i{max-width:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .menu,.navlink,.navlink .chev,.nav .end span,.nav .links{transition:none!important}
+}

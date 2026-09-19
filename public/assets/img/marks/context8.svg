@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<title>Context8 — memory that survives the session</title>
+<path d="M24 24c0-6.5 3.6-11 8.5-11S41 17 41 22s-3.4 9-8.5 9S24 30.5 24 24z"/>
+<path d="M24 24c0 6.5-3.6 11-8.5 11S7 31 7 26s3.4-9 8.5-9S24 17.5 24 24z"/>
+<circle cx="24" cy="24" r="2.6" fill="currentColor" stroke="none"/>
+</svg>

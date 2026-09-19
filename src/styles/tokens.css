@@ -1,0 +1,238 @@
+/* Retail @font-face (Haffer, Haffer Mono) removed for the public deploy — HAL-1393. */
+/* ═══════════════════════════════════════════════════════════════════════
+   hallelx2 labs — design tokens
+   v10 · September 2026 · THE single source of truth
+
+   Every colour, radius, curve and measure on every hallelx2 surface is
+   declared once, here. Nothing else may declare a :root block. Before
+   this file there were two — one in hallelx2-landing.html and one in
+   assets/product.css — and they had already drifted: the landing had
+   --ink-navy and no --warn, product.css had --warn and no --ink-navy.
+   That is the failure this file exists to prevent.
+
+   ── How to consume it ───────────────────────────────────────────────
+   Static HTML (this repo):
+       <link rel="stylesheet" href="tokens.css">      <!-- FIRST -->
+       <link rel="stylesheet" href="assets/product.css">
+       <link rel="stylesheet" href="assets/nav.css">
+
+   Next.js / Tailwind v4 (app/globals.css):
+       @import "tailwindcss";
+       @import "../tokens.css";
+   The @theme inline block at the foot bridges every token to a utility:
+   --blue becomes bg-blue / text-blue / border-blue, --display becomes
+   font-display. There is no tailwind.config.js and there must not be.
+
+   Expo / NativeWind: read the SAME names from the :root block below, so
+   web and mobile cannot drift. Do not re-declare the values there.
+
+   ── The one rule ────────────────────────────────────────────────────
+   Components reference these names. A hex or an oklch() literal inside a
+   component means a token is missing — add it here instead.
+
+   ── Contrast, measured not assumed ──────────────────────────────────
+   Computed sRGB → relative luminance → WCAG ratio. 4.5 for text, 3.0 for
+   a meaningful graphic (a border, a bar, a rule).
+
+     --ink   on --white .... 16.63     #fff       on --blue ...  5.43
+     --ink   on --pale ..... 14.78     --sky      on --blue ...  4.82
+     --muted on --white .....  6.00     --rule     on --blue ...  3.12
+     --muted on --paper .....  5.59     --ink-navy on --blue ...  3.05
+     --blue  on --pale ......  4.82     --ink-navy on cloud .... 16.58
+     --green on --white .....  4.97     --warn     on --white ..  5.31
+     --slate on --white .....  5.29
+
+   Two consequences worth knowing before you design against this:
+
+   1. A saturated ground leaves only 0.61 between #fff (5.43) and --sky
+      (4.82). ON THE BRAND BLUE, HIERARCHY COMES FROM SIZE AND TRACKING,
+      NEVER FROM TONE.
+
+   2. A muted→lit reveal needs BOTH states ≥4.5:1, so it cannot live on a
+      saturated fill — the lit state tops out at 5.43. Reveals belong on
+      white. This is why the scroll wipe is a light-ground effect only.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ─── ground ──────────────────────────────────────────────────────────
+     White first. The brand blue is the only saturated surface and it is
+     rationed: the nav pill, the hero, the closing plate. Black survives
+     only as body text on a light ground.                                */
+  --white:  #ffffff;                  /* the ground                       */
+  --paper:  oklch(97.5% .004 252);    /* page ground, white w/ a blue cast*/
+  --pale:   oklch(96%   .028 252);    /* panel, open row, alternate card  */
+  --line:   oklch(88%   .035 252);    /* hairline on light                */
+
+  /* ─── the three fields ────────────────────────────────────────────────
+     One hue per field, each ≥4.5:1 as text on white so a category colour
+     can carry a label, not only a swatch.                               */
+  --blue:   oklch(53% .205 258);      /* healthcare · 5.43 on white       */
+  --green:  oklch(53% .130 152);      /* education  · 4.97 on white       */
+  --slate:  oklch(53% .060 262);      /* AI         · 5.29 on white       */
+
+  /* --accent is the live category. Product pages re-point it per page;
+     the landing is always blue. Components read --accent, never --blue,
+     so one declaration themes a whole page.                             */
+  --accent: var(--blue);
+
+  --blue-2: oklch(47% .205 258);      /* hover / elevated, on the blue    */
+
+  /* ─── on the blue ─────────────────────────────────────────────────────
+     Only these two are legible on a saturated ground. See note 1 above. */
+  --rule:   oklch(82% .09  252);      /* hairline ON blue · 3.12          */
+  --sky:    oklch(96% .028 252);      /* quiet text ON blue · 4.82        */
+
+  /* ─── text ────────────────────────────────────────────────────────── */
+  --ink:    oklch(23.6% .002 68);     /* the only black · 16.63 on white  */
+  --muted:  oklch(50%   .005 78);     /* secondary text · 6.00 on white   */
+
+  /* --ink-navy is the one value that survives BOTH the blue sky and the
+     white cloud in the hero (3.05 and 16.58). It is why the hero buttons
+     and the aeroplane are navy rather than white — a white pill on white
+     cloud measures 1.00:1 and disappears.                               */
+  --ink-navy: oklch(24% .1 258);
+
+  /* ─── status ──────────────────────────────────────────────────────────
+     One only. --warn carries a decline, a caution, a "before" bar. There
+     is deliberately no --ok: a positive state is shown in --accent, so a
+     green tick never competes with the education field's green.         */
+  --warn:   oklch(52% .17 32);        /* 5.31 on white                    */
+
+  /* A muted bar on white. Chosen by measurement, not by eye: --line is
+     1.43:1 and invisible as a bar, 78% lightness is 2.00:1 and still
+     fails. This clears 3.0. Never use it for a value label.             */
+  --mute-bar: oklch(66% .02 252);     /* 3.11 on white                    */
+
+  /* ─── type ────────────────────────────────────────────────────────────
+     Haffer and Brisa Pro are RETAIL faces — buy a licence before any
+     public deploy. Until then the OFL stack behind them renders the
+     system correctly, just not identically. Archivo is the closest free
+     grotesque, JetBrains Mono the closest free mono.
+
+     Orbitron carries the x2 and every headline figure. It has a SLASHED
+     ZERO, so it must never set prose containing a 0 — "Apache 2.0"
+     rendered as "Apache 2.Ø" and had to be moved out of the mark face.  */
+  --display: 'Haffer','Archivo',system-ui,sans-serif;
+  --mono:    'Haffer Mono','JetBrains Mono',ui-monospace,Menlo,monospace;
+  --mark:    'Orbitron',var(--display);
+
+  /* The scale as it is actually set on the pages. Clamped, so it holds at
+     390 / 1100 / 1440 / 1920 with no media query.                       */
+  --t-hero:  clamp(34px,6.2vw,88px);  /* hero h1 · leading .98, track -.035em */
+  --t-h2:    clamp(28px,4vw,56px);    /* section h2                       */
+  --t-h3:    clamp(21px,2.1vw,30px);
+  --t-say:   clamp(24px,2.7vw,38px);  /* pull line in a card              */
+  --t-lead:  clamp(16px,1.35vw,21px);
+  --t-body:  clamp(15px,1.25vw,17.5px);
+  --t-sm:    14px;
+  --t-meta:  10.5px;                  /* mono, uppercase, tracked .11em   */
+
+  /* ─── space ───────────────────────────────────────────────────────── */
+  --gutter:  clamp(20px,4vw,72px);    /* page margin, every full-bleed card */
+  --section: clamp(64px,9vw,140px);
+
+  /* The nav is fixed at 16px from the top and is 50px tall (6+38+6), so it
+     ends at 66px. --gutter only reaches 66px at ~1650px wide, which is why
+     a hero card set at --gutter was cut by the nav on every normal screen
+     — 22px of overlap at 1100px. ANY FULL-BLEED CARD AT THE TOP OF A PAGE
+     STARTS AT --nav-clear, NOT --gutter.                                */
+  --nav-clear: 78px;
+
+  /* ─── radius ──────────────────────────────────────────────────────────
+     Rounded rectangles and pills. No blob, no inverted corner, no
+     squircle. The signature is motion and the split button, not shape.  */
+  --r:    clamp(16px,1.7vw,24px);     /* card                             */
+  --r-sm: 12px;                       /* tile, menu item                  */
+  --r-xs: 3px;                        /* chip, banner                     */
+  --pill: 999px;
+
+  /* ─── motion ──────────────────────────────────────────────────────────
+     Two curves and nothing else. --ease for entering and settling,
+     --soft for colour and opacity. Everything folds under
+     prefers-reduced-motion; see DESIGN.md §7.                           */
+  --ease: cubic-bezier(.19,1,.22,1);
+  --soft: cubic-bezier(.4,0,.2,1);
+  --d-fast: 220ms;
+  --d-base: 440ms;
+  --d-slow: 900ms;
+
+  /* ─── measure ─────────────────────────────────────────────────────── */
+  --page:  1320px;                    /* the content column inside --gutter */
+  --prose: 66ch;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FACES
+   Haffer / Brisa Pro live in assets/fonts/; the OFL fallbacks in
+   assets/fonts/hallelx2/. If tokens.css is not beside /assets, change the
+   prefix once, here.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* OFL fallbacks — these render the system correctly without a Haffer licence */
+@font-face{font-family:'Archivo';src:url('/assets/fonts/hallelx2/Archivo-variable.woff2') format('woff2-variations');
+  font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+@font-face{font-family:'Inter';src:url('/assets/fonts/hallelx2/Inter-variable.woff2') format('woff2-variations');
+  font-weight:100 900;font-display:swap}
+@font-face{font-family:'JetBrains Mono';src:url('/assets/fonts/hallelx2/JetBrainsMono-variable.woff2') format('woff2-variations');
+  font-weight:100 800;font-display:swap}
+@font-face{font-family:'Orbitron';src:url('/assets/fonts/hallelx2/Orbitron-variable.woff2') format('woff2-variations');
+  font-weight:400 900;font-display:swap}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   NO COMPONENT RULES BELOW THIS LINE — AND NONE ABOVE IT.
+
+   This file declares tokens and loads faces. That is all it may ever do.
+   A `.wm` wordmark block lived here briefly and had to come out: it set
+   letter-spacing on the x2, which collided with the wordmark the nav
+   already styles, and shifted every nav item 4px. A pixel diff caught it.
+
+   Components live in assets/nav.css and assets/product.css. If you find
+   yourself adding a selector here, it belongs in one of those.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TAILWIND v4 BRIDGE
+   `inline` means the utilities resolve to var(--blue) rather than copying
+   the value, so re-pointing --accent at runtime still themes everything.
+   Ignored harmlessly by a plain-CSS build.
+   ═══════════════════════════════════════════════════════════════════════ */
+@theme inline {
+  --color-white:    var(--white);
+  --color-paper:    var(--paper);
+  --color-pale:     var(--pale);
+  --color-line:     var(--line);
+  --color-blue:     var(--blue);
+  --color-green:    var(--green);
+  --color-slate:    var(--slate);
+  --color-accent:   var(--accent);
+  --color-blue-2:   var(--blue-2);
+  --color-rule:     var(--rule);
+  --color-sky:      var(--sky);
+  --color-ink:      var(--ink);
+  --color-muted:    var(--muted);
+  --color-ink-navy: var(--ink-navy);
+  --color-warn:     var(--warn);
+  --color-mute-bar: var(--mute-bar);
+
+  --font-display: var(--display);
+  --font-mono:    var(--mono);
+  --font-mark:    var(--mark);
+
+  --radius-xs:   var(--r-xs);
+  --radius-sm:   var(--r-sm);
+  --radius-card: var(--r);
+  --radius-pill: var(--pill);
+
+  --ease-out:  var(--ease);
+  --ease-soft: var(--soft);
+}
+
+/* Derived values are mixed at the point of use, never frozen into a token,
+   so there is exactly one place to change a hue:
+     color-mix(in oklab, var(--ink) 8%, transparent)      hairline tint
+     color-mix(in oklab, var(--accent) 14%, transparent)  accent wash
+     oklch(100% 0 0 / .12)                                glass on blue   */

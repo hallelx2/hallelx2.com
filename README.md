@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# hallelx2.com
 
-## Getting Started
+The hallelx2 labs site — landing, six product pages, training, about, and the
+living design-system gallery. Live at [hallelx2.com](https://hallelx2.com).
 
-First, run the development server:
+## Where the design comes from
+
+The pages were designed as static HTML in OpenDesign under the v10 token
+system. [docs/DESIGN.md](docs/DESIGN.md) is the design contract;
+`src/styles/tokens.css` is the single declaration site for colour, type,
+space, radius, motion and every `@font-face`. Nothing else may declare
+`:root` or `@font-face`.
+
+`scripts/port.mjs` converts the frozen HTML set into this app. To pick up a
+design revision, point `OD_SRC` at the OpenDesign project directory and re-run:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+node scripts/port.mjs && bun run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Generated files (views, `SiteNav`, page styles, page scripts) carry a
+"generated" header — edit the source design or the porter, not the output.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Architecture
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js App Router, TypeScript, all routes statically prerendered.
+- **Deliberate MPA**: internal links are plain `<a>` full-page loads. Each
+  route's inline script must re-run on entry and per-route CSS must not leak
+  across navigations, so `<Link/>` client navigation is intentionally not used.
+- Page behaviour scripts load via `next/script` `afterInteractive` — DOM
+  mutations before hydration get reverted by React.
+- No Tailwind: the pages use no utilities, and Tailwind preflight would drift
+  the rendering the v10 contract froze. The `@theme` block in `tokens.css` is
+  inert here and activates if a Tailwind layer is ever added.
 
-## Learn More
+## Fonts
 
-To learn more about Next.js, take a look at the following resources:
+Haffer and Brisa Pro are retail faces and are **not in this repo**; the site
+ships the self-hosted OFL stack (Archivo, Inter, JetBrains Mono, Orbitron),
+which the design contract specifies as the correct fallback rendering.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Commands
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+bun install
+bun run dev     # dev server
+bun run build   # production build (the gate)
+bun run start   # serve the production build
+bun run lint
+```

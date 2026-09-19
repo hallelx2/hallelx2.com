@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<title>Coursified — a course as a sequence of decisions</title>
+<path d="M6 40h9V29h9V18h9V7h9"/>
+<circle cx="15" cy="29" r="2.6"/><circle cx="24" cy="18" r="2.6"/><circle cx="33" cy="7" r="2.6"/>
+<path d="M6 40V29" opacity=".4"/>
+</svg>

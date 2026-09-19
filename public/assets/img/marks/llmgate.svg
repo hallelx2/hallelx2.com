@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<title>llmgate — one way through, one place it is measured</title>
+<path d="M12 42V22a12 12 0 0 1 24 0v20"/>
+<path d="M3 30h9"/><path d="M36 30h9"/>
+<circle cx="24" cy="30" r="4"/>
+</svg>

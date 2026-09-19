@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<title>omni — agents held to an outcome</title>
+<circle cx="24" cy="24" r="5"/>
+<circle cx="24" cy="7" r="3"/><circle cx="24" cy="41" r="3"/>
+<circle cx="7" cy="24" r="3"/><circle cx="41" cy="24" r="3"/>
+<path d="M24 10v9M24 29v9M10 24h9M29 24h9" opacity=".5"/>
+<path d="M12 12 18.5 18.5M35.5 35.5 29.5 29.5M36 12 29.5 18.5M12 36 18.5 29.5" opacity=".28"/>
+</svg>
