@@ -95,9 +95,25 @@
   if (!location.hash) return;
   var el = document.getElementById(location.hash.slice(1));
   if (!el) return;
-  requestAnimationFrame(function () {
-    if (window.scrollY > 80) return;
-    if (el.getBoundingClientRect().top < 80) return;
+  var placed = -1;
+  function jump () {
     el.scrollIntoView({ behavior: 'instant', block: 'start' });
+    placed = window.scrollY;
+  }
+  requestAnimationFrame(function () {
+    if (window.scrollY > 80) return;                 /* UA jump survived, or reader moved */
+    if (el.getBoundingClientRect().top < 80) return; /* target already in view */
+    jump();
+  });
+  /* Late images and font swaps move the target after the first jump (measured
+     230px adrift on a cold production load). Re-align once everything has
+     loaded — but never if the reader has scrolled away in the meantime. */
+  addEventListener('load', function () {
+    setTimeout(function () {
+      if (placed < 0 && window.scrollY > 80) return;
+      if (placed >= 0 && Math.abs(window.scrollY - placed) > 4) return;
+      if (Math.abs(el.getBoundingClientRect().top) <= 2) return;
+      jump();
+    }, 80);
   });
 })();
