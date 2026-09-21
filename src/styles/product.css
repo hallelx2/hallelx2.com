@@ -226,19 +226,83 @@ a.ev:hover .go{transform:translateX(4px)}
 .take b{color:var(--ink);font-weight:500}
 .take.bad b{color:var(--warn)}
 
-/* ── the loop diagram ─────────────────────────────────────────────────
-   Six boxes and a dashed return. The only colours are --accent for the
-   forward path and --warn for the return, so the picture reads in one
-   glance without a legend. */
-.flow{background:#fff;border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--line);
-  padding:clamp(22px,2.6vw,38px)}
-.flow svg{width:100%;height:auto}
-.flow .f-node{font-family:var(--display);font-size:19px;font-weight:500;fill:var(--ink);
-  letter-spacing:-.02em}
-.flow .f-ret{font-family:var(--mono);font-size:11px;letter-spacing:.09em;
-  text-transform:uppercase;fill:var(--warn)}
-.flow .c-ax{font-family:var(--mark);font-weight:700;fill:var(--accent);font-size:11px}
-.flow .take{margin-top:clamp(16px,2vw,24px)}
+/* ── the staircase ────────────────────────────────────────────────────
+   Six square tiles that climb left to right: each one is a step, and each
+   holds the tools that step actually uses. Closed it shows an icon and a
+   word; open it fills with --accent and shows the detail.
+
+   Opening is driven three ways so no input is privileged — :hover for a
+   pointer, :focus-within for a keyboard, and .open toggled by the page
+   script for touch, where hover does not exist. The panel is a solid
+   token fill: white on --accent measures 5.43 and --sky 4.82, so both
+   layers of the revealed text clear 4.5.
+
+   The rise is a margin, so it folds to zero at the breakpoint and the
+   staircase becomes an ordinary grid rather than a broken diagonal. */
+.stair{--rise:clamp(14px,3.2vw,58px);display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;align-items:start}
+.step{position:relative;aspect-ratio:1;border-radius:var(--r);overflow:hidden;
+  background:#fff;box-shadow:inset 0 0 0 1px var(--line);
+  display:block;width:100%;text-align:left;border:0;padding:0;cursor:pointer;
+  font:inherit;color:inherit;
+  transition:box-shadow .25s var(--soft),transform .35s var(--ease)}
+.step:nth-child(1){margin-top:calc(5 * var(--rise))}
+.step:nth-child(2){margin-top:calc(4 * var(--rise))}
+.step:nth-child(3){margin-top:calc(3 * var(--rise))}
+.step:nth-child(4){margin-top:calc(2 * var(--rise))}
+.step:nth-child(5){margin-top:calc(1 * var(--rise))}
+.step:nth-child(6){margin-top:0}
+.step:hover,.step:focus-visible,.step.open{box-shadow:inset 0 0 0 1.5px var(--accent);
+  transform:translateY(-3px)}
+
+.step .face{position:absolute;inset:0;display:flex;flex-direction:column;
+  justify-content:space-between;padding:clamp(14px,1.5vw,22px);
+  transition:opacity .22s var(--soft)}
+.step .face .i{width:30px;height:30px;color:var(--accent)}
+.step .face .i svg{width:30px;height:30px}
+.step .face .n{font-family:var(--mark);font-weight:700;font-size:11px;color:var(--accent)}
+.step .face b{display:block;font-weight:500;font-size:clamp(15px,1.5vw,20px);
+  letter-spacing:-.028em;line-height:1.1}
+.step .face .hint{font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin-top:6px}
+
+.step .detail{position:absolute;inset:0;background:var(--accent);color:#fff;
+  padding:clamp(14px,1.5vw,22px);display:flex;flex-direction:column;gap:8px;
+  opacity:0;visibility:hidden;transform:translateY(8px);
+  transition:opacity .24s var(--soft),transform .3s var(--ease),visibility .24s}
+.step .detail b{font-weight:500;font-size:clamp(14px,1.4vw,18px);letter-spacing:-.025em;
+  line-height:1.15}
+/* a <span>, not a <p>: the panel lives inside a <button>, whose content model
+   is phrasing only. A <p> there is re-parented by the HTML parser, which threw
+   the tool chips clean out of the panel. */
+.step .detail .d{display:block;font-size:clamp(12px,1.05vw,13.5px);line-height:1.4;
+  color:var(--sky)}
+.step .detail .tools{margin-top:auto;display:flex;flex-wrap:wrap;gap:4px}
+/* max-width and the wrap guard matter: a chip wider than the tile does not
+   get wrapped by flex-wrap, it just overflows and is clipped by the tile's
+   own overflow:hidden. Measured at 1000px, where a tile is 145px wide. */
+.step .detail .tools span{font-family:var(--mono);font-size:8.5px;letter-spacing:.07em;
+  text-transform:uppercase;padding:3px 6px;border-radius:var(--r-xs);
+  box-shadow:inset 0 0 0 1px var(--rule);color:#fff;max-width:100%;overflow-wrap:anywhere}
+.step:hover .detail,.step:focus-within .detail,.step.open .detail{opacity:1;visibility:visible;
+  transform:none}
+.step:hover .face,.step:focus-within .face,.step.open .face{opacity:0}
+
+/* Six columns need room: measured open, the panel overflowed its tile by up to
+   58px between 940 and 1000px, where a tile is squeezed to ~145px. It is clean
+   at 1240 (182px) and above, so the staircase folds to three columns below
+   1150 and the rise goes to zero — a plain grid rather than a cramped diagonal. */
+@media (max-width:1150px){
+  .stair{grid-template-columns:repeat(3,minmax(0,1fr));--rise:0px}
+}
+@media (max-width:900px){
+  .stair{grid-template-columns:repeat(2,minmax(0,1fr));--rise:0px}
+  .step{aspect-ratio:1.15}
+}
+@media (max-width:420px){
+  .stair{grid-template-columns:1fr}
+  .step{aspect-ratio:1.9}
+}
 
 /* ── straight talk: short chips, never paragraphs ────────────────────── */
 .talk{background:var(--ink);color:#fff;border-radius:var(--r);padding:clamp(22px,2.8vw,40px)}
