@@ -97,12 +97,15 @@
 .nav.open .burger rect:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
 
 @media (max-width:900px){
-  .nav{width:calc(100vw - 24px)}
+  /* No width here. The pill is positioned by left/right:var(--gutter) at every
+     size; a width:calc(100vw - 24px) survived here from the old centred pill and
+     pushed the right edge past both the hero card and the viewport (62px over at
+     890px, because 100vw also counts the scrollbar). Measured 2026-09-21. */
   .nav .burger{display:flex;order:3}
   /* the CTA stays on mobile — hiding it removes the only conversion path
      on the device most people will read this on */
   .nav .end{margin-left:auto;order:2;padding:0 13px;font-size:10px}
-  .nav .links{position:fixed;top:78px;left:12px;right:12px;margin:0;
+  .nav .links{position:fixed;top:78px;left:var(--gutter);right:var(--gutter);margin:0;
     flex-direction:column;align-items:stretch;gap:2px;
     background:oklch(100% 0 0 / .95);-webkit-backdrop-filter:blur(15px);backdrop-filter:blur(15px);
     border:2px solid var(--line);border-radius:16px;padding:10px;
