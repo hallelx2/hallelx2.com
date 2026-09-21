@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<title>swarmtorch</title>
+<circle cx="24" cy="24" r="3.5"/><circle cx="11" cy="14" r="2.5"/><circle cx="37" cy="14" r="2.5"/><circle cx="11" cy="34" r="2.5"/><circle cx="37" cy="34" r="2.5"/><circle cx="24" cy="8" r="2.5"/><circle cx="24" cy="40" r="2.5"/><path d="m13 15.5 8 6M35 15.5l-8 6M13 32.5l8-6M35 32.5l-8-6" opacity=".5"/>
+</svg>

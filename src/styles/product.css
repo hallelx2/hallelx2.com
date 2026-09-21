@@ -226,6 +226,45 @@ a.ev:hover .go{transform:translateX(4px)}
 .take b{color:var(--ink);font-weight:500}
 .take.bad b{color:var(--warn)}
 
+/* ── square cards ─────────────────────────────────────────────────────
+   The library and project grids. Squares, not rows: a row makes every item
+   look like a list entry of the same weight, and these each carry a story.
+
+   Three across at full width so nine items land as a clean 3x3. The icon
+   sits top-left in --accent, the name reads as a proper name (LLMGate, not
+   llmgate), the story fills the middle, and the registry and version sit on
+   the bottom edge where the eye finishes. */
+.sqs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.sq{position:relative;aspect-ratio:1;display:flex;flex-direction:column;
+  background:#fff;border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--line);
+  padding:clamp(20px,2.2vw,32px);overflow:hidden;
+  transition:box-shadow .25s var(--soft),transform .35s var(--ease)}
+a.sq:hover{box-shadow:inset 0 0 0 1.5px var(--accent);transform:translateY(-3px)}
+.sq .i{width:32px;height:32px;color:var(--accent);flex:none}
+.sq .i svg{width:32px;height:32px}
+.sq .nm{display:block;font-weight:500;font-size:clamp(18px,1.9vw,25px);
+  letter-spacing:-.032em;line-height:1.05;margin-top:clamp(14px,1.6vw,20px)}
+.sq .story{margin-top:10px;font-size:clamp(13.5px,1.1vw,15px);line-height:1.5;
+  color:var(--muted)}
+.sq .story b{color:var(--ink);font-weight:500}
+.sq .meta-row{margin-top:auto;padding-top:14px;display:flex;flex-wrap:wrap;
+  align-items:center;gap:8px;border-top:1px solid var(--line)}
+.sq .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted)}
+.sq .ver{font-family:var(--mark);font-weight:700;font-size:11px;color:var(--accent);
+  font-variant-numeric:tabular-nums}
+.sq .go{margin-left:auto;width:30px;height:30px;border-radius:var(--pill);flex:none;
+  display:flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;
+  transition:transform .4s var(--ease)}
+.sq .go svg{width:13px;height:13px}
+a.sq:hover .go{transform:translateX(3px)}
+
+@media (max-width:1000px){.sqs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){
+  .sqs{grid-template-columns:1fr}
+  .sq{aspect-ratio:auto;min-height:0}
+}
+
 /* ── the staircase ────────────────────────────────────────────────────
    Six square tiles that climb left to right: each one is a step, and each
    holds the tools that step actually uses. Closed it shows an icon and a

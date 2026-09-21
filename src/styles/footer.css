@@ -51,4 +51,11 @@
 .foot-base{display:flex;flex-wrap:wrap;align-items:center;gap:16px;max-width:1320px;margin:0 auto;
   padding:18px 0;border-top:1px solid var(--line);color:var(--muted)}
 .foot-base .r{margin-left:auto;display:flex;gap:16px}
+/* the label was carrying an arrow's job in monospace; the arrow does it, and
+   the word stays for anyone who needs it. #ad is the down arrow in the page
+   sprite, turned over rather than adding a second symbol. */
+.foot-base .r a{display:inline-flex;align-items:center;gap:7px}
+.foot-base .r a .ico{width:12px;height:12px;transform:rotate(180deg);
+  transition:transform .3s var(--ease)}
+.foot-base .r a:hover .ico{transform:rotate(180deg) translateY(3px)}
 .foot-base a:hover{color:var(--ink)}
