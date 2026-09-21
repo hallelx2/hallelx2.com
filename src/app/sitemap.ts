@@ -4,6 +4,7 @@ const ROUTES = [
   "/",
   "/products",
   "/libraries",
+  "/activity",
   "/about",
   "/training",
   "/training/ai-in-practice-2026",
