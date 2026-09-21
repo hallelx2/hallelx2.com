@@ -76,6 +76,25 @@
      so one declaration themes a whole page.                             */
   --accent: var(--blue);
 
+  /* ─── the ghost of the giant wordmark ─────────────────────────────────
+     The footer mark sets "hallel" quiet and "x2" in --accent. The quiet
+     half is a tint of the same field, so the whole mark belongs to the
+     page it sits on. Each value follows --line's own recipe — L 88%, the
+     field's hue, and the field's chroma scaled by the 0.171 that takes
+     --blue (.205) down to --line (.035) — so all three read at one
+     weight rather than one looking heavier than another.
+
+     Decorative only. The mark is aria-hidden, unselectable and
+     pointer-inert, so these carry no contrast duty; --line itself
+     measures 1.43 on white and is a decorative value for the same
+     reason (DESIGN.md §4, rule 3).                                     */
+  --line-ed: oklch(88% .022 152);     /* education  · green-tinted        */
+  --line-ai: oklch(88% .010 262);     /* AI         · grey, slate-tinted  */
+
+  /* The second theming hinge, re-pointed beside --accent by the .t-*
+     classes. Components read --mark-ghost, never --line-ed / --line-ai. */
+  --mark-ghost: var(--line);
+
   --blue-2: oklch(47% .205 258);      /* hover / elevated, on the blue    */
 
   /* ─── on the blue ─────────────────────────────────────────────────────
@@ -209,6 +228,9 @@
   --color-green:    var(--green);
   --color-slate:    var(--slate);
   --color-accent:   var(--accent);
+  --color-line-ed:  var(--line-ed);
+  --color-line-ai:  var(--line-ai);
+  --color-mark-ghost: var(--mark-ghost);
   --color-blue-2:   var(--blue-2);
   --color-rule:     var(--rule);
   --color-sky:      var(--sky);

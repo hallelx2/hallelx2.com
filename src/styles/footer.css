@@ -40,7 +40,7 @@
 .foot-mark{--K:4.667;max-width:1320px;margin:clamp(24px,3vw,44px) auto 0;
   padding-bottom:clamp(6px,.8vw,14px);
   font-size:min(calc((100vw - 2 * var(--gutter)) / var(--K)), calc(1320px / var(--K)));
-  line-height:.86;user-select:none;pointer-events:none;color:var(--line)}
+  line-height:.86;user-select:none;pointer-events:none;color:var(--mark-ghost)}
 .foot-mark span{display:block;line-height:.86;letter-spacing:-.05em;white-space:nowrap}
 /* the wordmark hierarchy everywhere else on the site: hallel quiet, x2 accent.
    Reads --accent (never --blue) per DESIGN.md §3, so the footer re-themes with

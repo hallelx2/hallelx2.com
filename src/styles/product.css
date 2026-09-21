@@ -18,9 +18,11 @@
 /* Tokens live in tokens.css, which every page links BEFORE this file.
    This stylesheet must not declare a :root block: there were two, and
    they had already drifted. See DESIGN.md "one declaration site". */
-.t-hc{--accent:var(--blue)}
-.t-ed{--accent:var(--green)}
-.t-ai{--accent:var(--slate)}
+/* A category re-points both hinges at once: the live colour and the ghost
+   the giant footer wordmark is set in. */
+.t-hc{--accent:var(--blue);  --mark-ghost:var(--line)}
+.t-ed{--accent:var(--green); --mark-ghost:var(--line-ed)}
+.t-ai{--accent:var(--slate); --mark-ghost:var(--line-ai)}
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
