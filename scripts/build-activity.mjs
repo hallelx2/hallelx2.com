@@ -49,6 +49,28 @@ for (const [mod, short] of GO) {
 }
 rel.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 
+/* ── the contribution calendar ────────────────────────────────────────
+   Read from GitHub's GraphQL API rather than counted here, so the graph
+   is the same number GitHub itself shows. */
+const { execSync } = await import("node:child_process");
+// single line, and single-quoted on the shell: double quotes would let the
+// shell eat $login/$from/$to before gh ever sees them.
+const gql = "query($login:String!,$from:DateTime!,$to:DateTime!){user(login:$login){"
+  + "contributionsCollection(from:$from,to:$to){totalCommitContributions "
+  + "totalPullRequestContributions totalRepositoriesWithContributedCommits "
+  + "contributionCalendar{totalContributions weeks{contributionDays{date contributionCount weekday}}}}}}";
+const nowIso = new Date();
+const fromIso = new Date(nowIso.getTime() - 364 * 86400000);
+const contribRaw = JSON.parse(execSync(
+  `gh api graphql -f query='${gql}' -f login=hallelx2 ` +
+  `-f from='${fromIso.toISOString().slice(0, 19)}Z' -f to='${nowIso.toISOString().slice(0, 19)}Z'`,
+  { encoding: "utf8", maxBuffer: 1 << 24 },
+)).data.user.contributionsCollection;
+const cal = contribRaw.contributionCalendar;
+const calDays = cal.weeks.flatMap((w) => w.contributionDays);
+const activeDays = calDays.filter((d) => d.contributionCount > 0).length;
+const busiest = calDays.reduce((a, b) => (b.contributionCount > a.contributionCount ? b : a));
+
 /* ── what is being worked on right now ────────────────────────────── */
 const repos = JSON.parse(
   (await import("node:child_process")).execSync(
@@ -93,6 +115,44 @@ const bars = months.map((m, i) => {
 }).join("");
 const chartH = top * 2 + months.length * rowH;
 
+/* ── the heatmap, drawn in the site's own tokens ──────────────────────
+   Five levels: an empty day is --line, a day with work is --accent at
+   four opacities. No gradient — each cell is one flat fill, which is
+   what the rest of the site does too. */
+// LEFT must clear the widest day label ('Wed' at 11px) drawn right-aligned at
+// LEFT-7; at 26 it was cut to 'Ved'. The viewBox likewise reserves room for the
+// 'More' legend label on the right, which was clipped to a single stroke.
+const CELL = 11, CGAP = 3, PITCH = CELL + CGAP, LEFT = 36, TOPM = 18, RIGHTPAD = 36;
+const thresholds = [1, 4, 10, 22];          // measured against this year's spread
+const levelOf = (n) => n === 0 ? 0 : n < thresholds[1] ? 1 : n < thresholds[2] ? 2 : n < thresholds[3] ? 3 : 4;
+const OPACITY = [null, .28, .5, .74, 1];
+const cells = cal.weeks.map((w, wi) => w.contributionDays.map((d) => {
+  const lv = levelOf(d.contributionCount);
+  const x = LEFT + wi * PITCH, y = TOPM + d.weekday * PITCH;
+  const fill = lv === 0 ? `fill="var(--line)" opacity=".55"` : `fill="var(--accent)" opacity="${OPACITY[lv]}"`;
+  return `<rect x="${x}" y="${y}" width="${CELL}" height="${CELL}" rx="2.5" ${fill}><title>${d.contributionCount} on ${human(d.date)}</title></rect>`;
+}).join("")).join("");
+const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+let lastMon = -1;
+const monLabels = cal.weeks.map((w, wi) => {
+  const first = w.contributionDays[0];
+  if (!first) return "";
+  const m = Number(first.date.slice(5, 7)) - 1;
+  if (m === lastMon) return "";
+  lastMon = m;
+  return `<text class="c-ax" x="${LEFT + wi * PITCH}" y="${TOPM - 6}">${MON[m]}</text>`;
+}).join("");
+const dayLabels = [1, 3, 5].map((wd) =>
+  `<text class="c-ax" x="${LEFT - 7}" y="${TOPM + wd * PITCH + CELL / 2}" text-anchor="end" dominant-baseline="middle">${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][wd]}</text>`).join("");
+const legend = [0, 1, 2, 3, 4].map((lv, i) => {
+  const x = LEFT + cal.weeks.length * PITCH - 5 * PITCH + i * PITCH;
+  const fill = lv === 0 ? `fill="var(--line)" opacity=".55"` : `fill="var(--accent)" opacity="${OPACITY[lv]}"`;
+  return `<rect x="${x}" y="${TOPM + 7 * PITCH + 10}" width="${CELL}" height="${CELL}" rx="2.5" ${fill}/>`;
+}).join("");
+const gW = LEFT + cal.weeks.length * PITCH + RIGHTPAD;
+const gH = TOPM + 7 * PITCH + 10 + CELL + 4;
+const heatmap = `<svg viewBox="0 0 ${gW} ${gH}" preserveAspectRatio="xMinYMid meet" role="img" aria-label="${cal.totalContributions} contributions over the last year, one square per day.">${monLabels}${dayLabels}${cells}<text class="c-ax" x="${LEFT + cal.weeks.length * PITCH - 5 * PITCH - 8}" y="${TOPM + 7 * PITCH + 10 + CELL / 2}" text-anchor="end" dominant-baseline="middle">Less</text>${legend}<text class="c-ax" x="${LEFT + cal.weeks.length * PITCH + 2}" y="${TOPM + 7 * PITCH + 10 + CELL / 2}" dominant-baseline="middle">More</text></svg>`;
+
 /* ── markup ───────────────────────────────────────────────────────── */
 const GO_ARROW = '<span class="go" aria-hidden="true"><svg><use href="#ar"/></svg></span>';
 const nowRows = recent.map((r) => `<a class="ev" href="${r.url}" target="_blank" rel="noopener">`
@@ -117,7 +177,22 @@ const main = `<section class="phero">
 
 <section class="sec">
   <div class="wrap">
-    <div class="eyebrow"><span class="n">01</span><span class="k">What I touched last</span>
+    <div class="eyebrow"><span class="n">01</span><span class="k">Every day of the last year</span>
+      <span class="note">${cal.totalContributions.toLocaleString()} contributions, read from GitHub on ${human(today)}.</span></div>
+    <div class="chart wide heat" data-reveal><h3>${activeDays} of ${calDays.length} days had something in them</h3>
+      <p class="cap">One square per day &middot; ${human(calDays[0].date)} to ${human(calDays[calDays.length - 1].date)}</p>
+      ${heatmap}
+      <p class="take">${contribRaw.totalCommitContributions.toLocaleString()} commits and ${contribRaw.totalPullRequestContributions}
+        pull requests across ${contribRaw.totalRepositoriesWithContributedCommits} repositories. The busiest single day was
+        <b>${human(busiest.date)}</b>, at ${busiest.contributionCount}. <b>The blank squares are real</b> &mdash; clinical
+        weeks and exam weeks look exactly like what they were.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="eyebrow"><span class="n">02</span><span class="k">What I touched last</span>
       <span class="note">The eight most recently pushed repositories, newest first.</span></div>
     <div class="events" data-reveal>${nowRows}</div>
   </div>
@@ -125,7 +200,7 @@ const main = `<section class="phero">
 
 <section class="sec">
   <div class="wrap">
-    <div class="eyebrow"><span class="n">02</span><span class="k">Cadence</span>
+    <div class="eyebrow"><span class="n">03</span><span class="k">Cadence</span>
       <span class="note">Published releases per month, ${thisYear}.</span></div>
     <div class="charts">
       <div class="chart wide" data-reveal><h3>When the work actually left the building</h3>
@@ -140,7 +215,7 @@ const main = `<section class="phero">
 
 <section class="sec">
   <div class="wrap">
-    <div class="eyebrow"><span class="n">03</span><span class="k">Every release</span>
+    <div class="eyebrow"><span class="n">04</span><span class="k">Every release</span>
       <span class="note">All ${rel.length}, oldest at the bottom. Each links to its registry.</span></div>
     <div class="metric" data-reveal>
       <table>

@@ -226,6 +226,11 @@ a.ev:hover .go{transform:translateX(4px)}
 .take b{color:var(--ink);font-weight:500}
 .take.bad b{color:var(--warn)}
 
+/* the contribution heatmap wants to scroll rather than shrink its cells
+   below a readable size on a phone */
+.chart.heat svg{min-width:660px}
+.chart.heat{overflow-x:auto}
+
 /* ── square cards ─────────────────────────────────────────────────────
    The library and project grids. Squares, not rows: a row makes every item
    look like a list entry of the same weight, and these each carry a story.
