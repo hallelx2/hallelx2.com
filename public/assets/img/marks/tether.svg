@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<title>tether</title>
+<rect x="9" y="9" width="13" height="13" rx="3"/><rect x="26" y="9" width="13" height="13" rx="3"/><rect x="9" y="26" width="13" height="13" rx="3"/><path d="M26 32.5h13M32.5 26v13" opacity=".5"/>
+</svg>
