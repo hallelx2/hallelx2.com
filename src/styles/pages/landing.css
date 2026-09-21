@@ -30,7 +30,8 @@ h2{font-size:clamp(28px,4vw,56px)}
 .dim{color:var(--muted)}
 .wm{display:inline-flex;align-items:baseline;letter-spacing:-.02em}
 .wm b{font-family:var(--mono);font-weight:500}
-.wm i{font-family:var(--mark);font-style:normal;font-weight:700;color:var(--blue)}
+.wm i{font-family:var(--mark);font-style:normal;font-weight:700;color:var(--accent)}  /* --accent, not --blue (DESIGN.md §3): the x2 takes the page's category
+     colour. On a coloured ground .on-c below still wins with --sky. */
 .on-c .wm i{color:var(--sky)}
 
 .cta{display:inline-flex;align-items:stretch;gap:5px;min-height:46px;font-family:var(--mono);

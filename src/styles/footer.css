@@ -19,9 +19,9 @@
 .foot-say p{font-size:clamp(15px,1.15vw,16.5px);line-height:1.55;color:var(--muted);
   margin-bottom:clamp(16px,1.8vw,22px)}
 .foot-say p b{color:var(--ink);font-weight:500}
-.foot-say .em{font-size:14px;color:var(--blue);border-bottom:1px solid transparent;
+.foot-say .em{font-size:14px;color:var(--accent);border-bottom:1px solid transparent;
   transition:border-color .22s var(--soft)}
-.foot-say .em:hover{border-bottom-color:var(--blue)}
+.foot-say .em:hover{border-bottom-color:var(--accent)}
 @media (max-width:900px){
   .foot-nav{grid-template-columns:repeat(2,minmax(120px,1fr))}
   .foot-say{grid-column:1 / -1;max-width:46ch}
@@ -42,10 +42,12 @@
   font-size:min(calc((100vw - 2 * var(--gutter)) / var(--K)), calc(1320px / var(--K)));
   line-height:.86;user-select:none;pointer-events:none;color:var(--line)}
 .foot-mark span{display:block;line-height:.86;letter-spacing:-.05em;white-space:nowrap}
-/* the wordmark hierarchy everywhere else on the site: hallel quiet, x2 blue.
+/* the wordmark hierarchy everywhere else on the site: hallel quiet, x2 accent.
+   Reads --accent (never --blue) per DESIGN.md §3, so the footer re-themes with
+   the page the way the nav already does — green on education, slate on AI.
    Was blue/line, briefly one-colour blue; settled 2026-09-20. Decorative
    (aria-hidden), so the ghosted --line ground carries no contrast duty. */
-.foot-mark i{color:var(--blue)}
+.foot-mark i{color:var(--accent)}  /* explicit: .wm i already resolves here, kept so the giant mark is legible in this file */
 .foot-base{display:flex;flex-wrap:wrap;align-items:center;gap:16px;max-width:1320px;margin:0 auto;
   padding:18px 0;border-top:1px solid var(--line);color:var(--muted)}
 .foot-base .r{margin-left:auto;display:flex;gap:16px}
