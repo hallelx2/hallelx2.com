@@ -17,6 +17,34 @@
   var burger = nav.querySelector('.burger');
   var mq = window.matchMedia('(max-width:900px)');
 
+  /* Keep an open panel inside the viewport.
+
+     The panel is centred on its nav item, so how wide it may be depends on how
+     far that item sits from the edge — which changes whenever a nav item is
+     added. Rather than encode that as a constant that goes stale, measure the
+     panel where it landed and translate it back by however much it overhangs.
+     Runs on open and on resize; costs one layout read per open. */
+  var GUTTER = 16;
+  function clampMenu(it) {
+    var m = it.querySelector('.menu');
+    if (!m) return;
+    /* Compute where centring WOULD put it, rather than reading back where it
+       currently is: transform is transitioned, so a rect read on open measures
+       the panel mid-animation and produces a different answer every time.
+       offsetWidth is laid out even while the panel is visibility:hidden. */
+    var vw = document.documentElement.clientWidth;
+    var w = m.offsetWidth;
+    var ir = it.getBoundingClientRect();
+    var centre = ir.left + ir.width / 2;
+    var left = centre - w / 2;
+    var right = centre + w / 2;
+    var shift = 0;
+    if (left < GUTTER) shift = GUTTER - left;
+    else if (right > vw - GUTTER) shift = (vw - GUTTER) - right;
+    m.setAttribute('data-shift', '');
+    m.style.setProperty('--shift', Math.round(shift) + 'px');
+  }
+
   function closeAll(except) {
     items.forEach(function (it) {
       if (it === except) return;
@@ -30,6 +58,7 @@
     var open = force === undefined ? !it.classList.contains('open') : force;
     closeAll(open ? it : null);
     it.classList.toggle('open', open);
+    if (open) clampMenu(it);
     var t = it.querySelector('.navlink');
     if (t) t.setAttribute('aria-expanded', open ? 'true' : 'false');
   }
@@ -80,6 +109,11 @@
     closeAll(null);
     nav.classList.remove('open');
     if (burger) burger.setAttribute('aria-expanded', 'false');
+  });
+
+  /* A resize can change which edge the panel overhangs, so re-clamp what is open. */
+  window.addEventListener('resize', function () {
+    items.forEach(function (it) { if (it.classList.contains('open')) clampMenu(it); });
   });
 })();
 

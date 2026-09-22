@@ -8,6 +8,7 @@ const ROUTES = [
   "/projects/bridgehook",
   "/projects/tether",
   "/projects/mercala",
+  "/writing",
   "/activity",
   "/how-i-work",
   "/stack",
