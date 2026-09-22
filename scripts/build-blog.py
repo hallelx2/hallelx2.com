@@ -14,7 +14,7 @@ from pagekit import sec, page, fig, chain, node
 X = "https://x.com/hallelx2/status"
 
 POSTS = [
- dict(slug="2101029934906925380", date="18 September 2026", reach="522",
+ dict(slug="2101029934906925380", date="18 September 2026", reach="523",
       title="Citation Needs Coordinates &mdash; Why I Wrote a PDF Engine in Go",
       sub="A pure-Go PDF structure engine, because the retrieval engine above it had to "
           "point at the pixels an answer came from. The ICDAR benchmarks, the metric I had "
@@ -45,6 +45,12 @@ POSTS = [
           "time you can borrow, attention you can only divide. Every service you add opens "
           "a standing order against it.",
       tag="Cloudflare", ver="Thesis"),
+ dict(slug="2097072971382747609", date="7 September 2026", reach="3.9K",
+      title="Mercala &mdash; A Store You Run by Talking to It",
+      sub="Every platform is going agentic, ecommerce included &mdash; Shopify shipped an admin "
+          "assistant and an MCP server to go with it. Three months ago I decided to learn Java, "
+          "and did it by building the agentic store I had been turning over for a while.",
+      tag="Mercala", ver="Java"),
 ]
 
 def card(p):
@@ -62,14 +68,14 @@ def card(p):
 
 page(
     "hallelx2-writing.html", "Writing &mdash; hallelx2 labs",
-    "Five long-form articles published on X — why I wrote a PDF engine in Go, why an MCP server beats an admin dashboard, why choosing a language stopped mattering, T3 Code, and the case for Cloudflare.",
+    "Six long-form articles published on X — why I wrote a PDF engine in Go, why an MCP server beats an admin dashboard, why choosing a language stopped mattering, T3 Code, and the case for Cloudflare.",
     "writing", "Writing &middot; Published on X", "Writing",
-    "Five arguments I cared enough about to write at length, and publish under my own name.",
-    [("5", "articles published on X, the most recent on 18 September 2026"),
+    "Six arguments I cared enough about to write at length, and publish under my own name.",
+    [("6", "articles published on X, the most recent on 18 September 2026"),
      # X truncates: "1K" is 1,000-1,099 and "1.7K" is 1,700-1,799. So the only
      # defensible aggregate is a floor — 522 + 1,000 + 1,500 + 915 + 1,700 —
      # not a point estimate, which would sit BELOW the true minimum.
-     ("5,600+", "reads across them, the floor of X&rsquo;s own figures on 22 September 2026"),
+     ("9,500+", "reads across them, the floor of X&rsquo;s own figures on 22 September 2026"),
      ("0", "of them written to a brief &mdash; each one started as something I had to work out")],
     [
      sec("01", "The arguments", "Each opens on X, where it was published.",
