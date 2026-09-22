@@ -306,4 +306,61 @@ page(
     "Any of these steps can fail. The question that took the time was which ones are allowed to take the answer down with them, and which should quietly hand back what they had.",
 )
 
-print("three project pages written")
+# ══ BRIDGEHOOK ═══════════════════════════════════════════════════════
+# Read from hallelx2/bridgehook on 2026-09-22 (HEAD, last commit 2026-08-25).
+# Deliberately understated against the README: verification is claimed there for
+# six providers and implemented for three, and the hosted domain does not resolve.
+bh_arch = arch([
+    [("Stripe / GitHub / Shopify", "the sender, unchanged", "pale")],
+    [("Cloudflare Worker", "public /hook/:channel endpoint", "accent")],
+    [("Durable Object", "holds the SSE, hibernates idle", "accent"),
+     ("Neon Postgres", "every event, request and response", None)],
+    [("Your browser tab", "the agent: receive, forward, reply", "accent")],
+    [("localhost:3000", "your dev server, untouched", "pale")],
+], "BridgeHook architecture: a webhook sender posts to a Cloudflare Worker, which hands the event to a per-channel Durable Object holding an SSE stream to a browser tab, which forwards it to localhost and posts the response back.")
+
+page(
+    "project-bridgehook.html",
+    "BridgeHook &mdash; hallelx2 labs",
+    "Webhook observability with nothing installed: a public URL forwards Stripe or GitHub to your localhost because the browser tab is the tunnel agent, with the stream held in a Cloudflare Durable Object.",
+    "bridgehook", "Tooling &middot; Open source", "BridgeHook",
+    "The browser tab is the tunnel. There is nothing to install because there is nothing to install.",
+    [("0", "binaries to install &mdash; the agent is a webpage holding an SSE stream"),
+     ("30s", "CPU limit per Worker request, which is the whole reason for the Durable Object"),
+     ("3", "signature schemes actually verified &mdash; Stripe, GitHub and Shopify")],
+    [
+        sec("01", "The problem it picks at", None,
+            '<div class="who" data-reveal><div class="bio"><p>Every webhook tunnel makes you install something &mdash; an <code>ngrok</code> binary, <code>cloudflared</code>, an npm package, an SSH client. That is fine until you are on a locked-down laptop, or demoing in thirty seconds, or teaching somebody who should not have to learn a package manager before they can test a Stripe webhook.</p><p>The observation underneath BridgeHook is that <b>the browser is already a perfectly good tunnel agent</b>. It can hold a stream open, and it is allowed to reach <code>localhost</code> from an HTTPS page &mdash; so the thing you were going to install is a page you already have open.</p></div></div>'),
+        sec("02", "How it actually works", "The Durable Object is not a flourish. It is the only reason this runs for nothing.",
+            f'<div class="arch" data-reveal>{bh_arch}<p class="take">A Worker has a <b>30-second CPU limit per request</b>, so an SSE stream held in a Worker would simply die. The stream lives in a per-channel Durable Object instead, which holds writers indefinitely and hibernates when idle &mdash; which is what makes leaving a bridge open all day cost nothing. The relay is a dumb pipe: store the event, hold the stream, correlate request with response.</p></div>'),
+        sec("03", "The protocol is four calls", "Which is why the browser is not special.",
+            does([
+                ("Create the channel", "<code>POST /api/channels</code> returns a channel id and a secret. The secret is generated in the browser, SHA-256 hashed, and only the hash is sent."),
+                ("Open the stream", "<code>GET /hook/:channelId/events</code> holds an SSE connection open against the Durable Object, authenticated by that hash in constant time."),
+                ("Forward it", "The agent <code>fetch()</code>es <code>http://localhost:3000</code> with the path, method, headers and body it was handed."),
+                ("Hand the response back", "<code>POST /hook/:channelId/response</code> correlates by id, so the original sender gets your dev server&rsquo;s real answer rather than a fabricated 200."),
+            ])),
+        pull("We are not the first to relay webhooks over SSE. smee.io has done this since 2017 and inspired a lot of the wire shape here.",
+             "the BridgeHook README, on prior art"),
+        sec("04", "What it does that a tunnel does not", "The tunnel is the boring half.",
+            talk("A tunnel moves bytes. This one keeps them and lets you argue with them.", [
+                ("Every event is captured", "Full request and response detail in Neon Postgres &mdash; method, path, headers, body, status and latency &mdash; so the feed is a record rather than a tail."),
+                ("Replay, and edit-then-replay", "Re-fire any captured event at localhost, or change the headers, body or method first. Reproducing a webhook bug stops involving the sender entirely."),
+                ("Signature verification", "Stripe, GitHub and Shopify are verified against a signing secret you paste once, with constant-time comparison. Slack is detected and shown but not yet verified; Clerk and Linear are in the secrets manager only."),
+                ("Mock-response mode", "Answer the sender with a canned response without forwarding at all &mdash; which is what you want when the dev server is not running."),
+                ("Copy as cURL", "Turn any captured webhook into a terminal command, which is usually the fastest route into a debugger."),
+            ])),
+        sec("05", "The security shape", "Worth stating precisely, because &ldquo;a public URL into my laptop&rdquo; deserves it.",
+            does([
+                ("The secret never leaves the browser", "It is generated client-side and hashed before transmission. The relay stores a hash, compares in constant time, and could not replay your traffic if it wanted to."),
+                ("The relay holds no key to your machine", "It can deliver bytes to a tab that holds the channel secret. It cannot run code on your machine, and it cannot reach your machine at all on its own."),
+                ("Close the tab and the bridge dies", "There is no daemon left behind and no background process to remember to kill &mdash; which is the flip side of the same design that removed the install."),
+            ])),
+        sec("06", "Honest state", None,
+            '<div class="talk" data-reveal><h3>Built and open, not yet hosted &mdash; and the README is ahead of the code in two places.</h3><ul><li><b>Not deployed</b>Four workspaces are built &mdash; the relay Worker at about 2,500 lines, the React dashboard, a Chrome extension and a Tauri desktop shell &mdash; but <code>bridgehook.dev</code> does not currently resolve. You can run the whole stack yourself; there is no hosted instance to point you at.</li><li><b>One release</b>v0.0.1. The README advertises Homebrew, Scoop and Snap channels for the desktop app; those do not exist yet.</li><li><b>No tests</b>There is CI, linting and typechecking, and no test files anywhere in the repository. That is the largest gap in it.</li><li><b>Six providers claimed, three verified</b>Corrected on this page rather than repeated. The README is being fixed.</li><li><b>Chrome moved the goalposts</b>Since Chrome 142, a public page reaching localhost triggers a one-time Local Network Access prompt &mdash; so the extension, which sits outside the page sandbox, is now the sensible default rather than the tab.</li></ul></div>'),
+    ],
+    "The install was never load-bearing.",
+    "Everything that made a webhook tunnel feel like infrastructure &mdash; the binary, the daemon, the account &mdash; turned out to be removable. What is left is a page, a stream, and a database that remembers what came through.",
+)
+
+print("four project pages written")
