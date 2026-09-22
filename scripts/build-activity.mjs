@@ -71,13 +71,19 @@ const calDays = cal.weeks.flatMap((w) => w.contributionDays);
 const activeDays = calDays.filter((d) => d.contributionCount > 0).length;
 const busiest = calDays.reduce((a, b) => (b.contributionCount > a.contributionCount ? b : a));
 
+/* Private client work. This page is regenerated from the GitHub API, so the
+   omission has to live here — deleting the markup by hand would come back on
+   the next build. Applied before anything is counted or rendered, so these
+   repositories are absent from the repo list AND from the yearly totals. */
+const EXCLUDE = new Set(["versity-student"]);
+
 /* ── what is being worked on right now ────────────────────────────── */
 const repos = JSON.parse(
   (await import("node:child_process")).execSync(
     "gh repo list hallelx2 --limit 300 --json name,description,pushedAt,isFork,url",
     { encoding: "utf8", maxBuffer: 1 << 24 },
   ),
-).filter((r) => !r.isFork);
+).filter((r) => !r.isFork && !EXCLUDE.has(r.name));
 const recent = repos.sort((a, b) => (a.pushedAt < b.pushedAt ? 1 : -1)).slice(0, 8);
 
 /* ── numbers, all derived ─────────────────────────────────────────── */
@@ -130,7 +136,7 @@ const cells = cal.weeks.map((w, wi) => w.contributionDays.map((d) => {
   const lv = levelOf(d.contributionCount);
   const x = LEFT + wi * PITCH, y = TOPM + d.weekday * PITCH;
   const fill = lv === 0 ? `fill="var(--line)" opacity=".55"` : `fill="var(--accent)" opacity="${OPACITY[lv]}"`;
-  return `<rect x="${x}" y="${y}" width="${CELL}" height="${CELL}" rx="2.5" ${fill}><title>${d.contributionCount} on ${human(d.date)}</title></rect>`;
+  return `<rect class="hc" x="${x}" y="${y}" width="${CELL}" height="${CELL}" rx="2.5" ${fill} data-n="${d.contributionCount}" data-d="${human(d.date)}"/>`;
 }).join("")).join("");
 const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 let lastMon = -1;
@@ -179,9 +185,10 @@ const main = `<section class="phero">
   <div class="wrap">
     <div class="eyebrow"><span class="n">01</span><span class="k">Every day of the last year</span>
       <span class="note">${cal.totalContributions.toLocaleString()} contributions, read from GitHub on ${human(today)}.</span></div>
-    <div class="chart wide heat" data-reveal><h3>${activeDays} of ${calDays.length} days had something in them</h3>
+    <div class="chart wide heat" data-reveal data-heat><h3>${activeDays} of ${calDays.length} days had something in them</h3>
       <p class="cap">One square per day &middot; ${human(calDays[0].date)} to ${human(calDays[calDays.length - 1].date)}</p>
       ${heatmap}
+      <p class="heat-read" data-heat-read aria-live="polite">Hover a day &mdash; or tap one &mdash; to see what was in it.</p>
       <p class="take">${contribRaw.totalCommitContributions.toLocaleString()} commits and ${contribRaw.totalPullRequestContributions}
         pull requests across ${contribRaw.totalRepositoriesWithContributedCommits} repositories. The busiest single day was
         <b>${human(busiest.date)}</b>, at ${busiest.contributionCount}. <b>The blank squares are real</b> &mdash; clinical
@@ -249,6 +256,49 @@ s = s.replace(/<meta name="description" content="[^"]*"/,
 s = s.replace('<a class="navlink" aria-current="page" href="hallelx2-libraries.html">Libraries</a>',
               '<a class="navlink" href="hallelx2-libraries.html">Libraries</a>');
 s = s.replace(/(<main id="top">).*?(<\/main>)/s, (_, a, b) => `${a}\n${main}\n${b}`);
+const heatScript = `<script>
+/* The heatmap tooltip. Cells carry data-n and data-d, so this reads the grid
+   rather than re-deriving it. Pointer events cover mouse and touch in one
+   path; the readout line under the grid is updated too, which is what makes
+   this work on a phone where nothing ever hovers. */
+(function () {
+  var wrap = document.querySelector('[data-heat]');
+  if (!wrap) return;
+  var read = wrap.querySelector('[data-heat-read]');
+  var rest = read ? read.textContent : '';
+  var tip = document.createElement('div');
+  tip.className = 'heat-tip';
+  tip.hidden = true;
+  wrap.appendChild(tip);
+
+  function say(el) {
+    var n = Number(el.getAttribute('data-n')), d = el.getAttribute('data-d');
+    var txt = (n === 0 ? 'Nothing' : n + (n === 1 ? ' contribution' : ' contributions')) + ' on ' + d;
+    tip.textContent = txt;
+    tip.hidden = false;
+    if (read) read.textContent = txt;
+    var c = el.getBoundingClientRect(), w = wrap.getBoundingClientRect();
+    /* Clamp inside the card: the grid scrolls horizontally, so a cell near the
+       right edge would otherwise put the tooltip outside the rounded box. */
+    var x = c.left - w.left + c.width / 2 - tip.offsetWidth / 2;
+    tip.style.left = Math.max(4, Math.min(x, w.width - tip.offsetWidth - 4)) + 'px';
+    tip.style.top = (c.top - w.top - tip.offsetHeight - 8) + 'px';
+  }
+  function clear() { tip.hidden = true; if (read) read.textContent = rest; }
+
+  wrap.addEventListener('pointerover', function (e) {
+    var el = e.target.closest && e.target.closest('.hc');
+    if (el) say(el);
+  });
+  wrap.addEventListener('pointerleave', clear);
+  wrap.addEventListener('pointerdown', function (e) {
+    var el = e.target.closest && e.target.closest('.hc');
+    if (el) { say(el); e.preventDefault(); }
+  });
+})();
+<\/script>`;
+s = s.replace('<script src="assets/nav.js" defer></script>', heatScript + '\n<script src="assets/nav.js" defer></script>');
+
 fs.writeFileSync(path.join(SRC, "hallelx2-activity.html"), s);
 
 fs.writeFileSync(path.join(SRC, "assets/img/marks/activity.svg"),

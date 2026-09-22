@@ -136,6 +136,13 @@
   --mono:    'Haffer Mono','JetBrains Mono',ui-monospace,Menlo,monospace;
   --mark:    'Orbitron',var(--display);
 
+  /* Small tracked labels — eyebrows, pills, tags, table heads, footer meta.
+     These used to be set in --mono, which read as code where no code was
+     meant. They are the grotesque now; --mono is kept for the things that
+     ARE code: inline <code>, the wordmark, and architecture-diagram labels.
+     One token so the next change to label type is one line, not twenty.  */
+  --label:   var(--display);
+
   /* The scale as it is actually set on the pages. Clamped, so it holds at
      390 / 1100 / 1440 / 1920 with no media query.                       */
   --t-hero:  clamp(34px,6.2vw,88px);  /* hero h1 · leading .98, track -.035em */
