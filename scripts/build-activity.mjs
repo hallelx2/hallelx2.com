@@ -281,7 +281,10 @@ const heatScript = `<script>
     /* Clamp inside the card: the grid scrolls horizontally, so a cell near the
        right edge would otherwise put the tooltip outside the rounded box. */
     var x = c.left - w.left + c.width / 2 - tip.offsetWidth / 2;
-    tip.style.left = Math.max(4, Math.min(x, w.width - tip.offsetWidth - 4)) + 'px';
+    /* left is a content coordinate inside the scroller, but x came from
+       viewport rects — so the scroll offset has to go back on, or the tip
+       drifts by exactly scrollLeft once the grid is panned. */
+    tip.style.left = (Math.max(4, Math.min(x, w.width - tip.offsetWidth - 4)) + wrap.scrollLeft) + 'px';
     tip.style.top = (c.top - w.top - tip.offsetHeight - 8) + 'px';
   }
   function clear() { tip.hidden = true; if (read) read.textContent = rest; }

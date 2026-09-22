@@ -210,7 +210,7 @@ page(
          "Every internal link is a plain anchor, and the lint rule that forbids it is disabled with the reason beside it.",
          fig("The heresy",
              "These pages are ported from a static design set, and each one owns its own CSS and its own script.",
-             chain([node("a plain <a>", "full document load", "on"),
+             chain([node("a plain &lt;a&gt;", "full document load", "on"),
                     node("the new page's CSS", "nothing leaks in"),
                     node("the new page's script", "runs, every time", "on")]),
              "A client-side transition keeps the document alive. That is normally the point &mdash; but here it means <b>page A&rsquo;s stylesheet is still attached when page B renders</b>, and page B&rsquo;s script, which ran once on first load, does not run again. The design set assumes a fresh document per page. So internal links are plain anchors, the router is the browser, and <code>@next/next/no-html-link-for-pages</code> is switched off in <code>eslint.config.mjs</code> with that paragraph written next to it. A disabled rule with no reason is technical debt; a disabled rule with a reason is a decision.")),
