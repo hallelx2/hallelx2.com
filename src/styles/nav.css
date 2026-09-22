@@ -36,7 +36,7 @@
 
 /* trigger + plain link share one look */
 .navlink{display:flex;align-items:center;gap:7px;height:38px;padding:0 15px;
-  border-radius:var(--pill);font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  border-radius:var(--pill);font-family:var(--label);font-size:10.5px;letter-spacing:.11em;
   text-transform:uppercase;color:var(--sky);background:none;border:0;cursor:pointer;
   white-space:nowrap;transition:background .25s var(--soft),color .25s var(--soft)}
 .navlink:hover,.navlink[aria-expanded="true"]{background:rgba(0,0,0,.22);color:#fff}
@@ -64,20 +64,19 @@
    far that item sits from the left edge — not by the viewport alone. Measured on
    the first item at ten widths from 901 to 1920, its centre is exactly
    100vw/2 - 205px every time, so a centred panel clips the moment it exceeds
-   100vw - 410px. Cap at 100vw - 460px so it also keeps a 25px margin off the
-   edge, and let the columns wrap into another row instead; below 901px the burger takes over and this does not apply. */
+   100vw - 503px. Cap at 100vw - 540px so it also keeps a margin off the edge, and let the columns wrap into another row instead; below 901px the burger takes over and this does not apply. */
 @media (min-width:901px){
   /* width:max-content is load-bearing. The panel is absolutely positioned, so it
      is shrink-to-fit; once .menu-cols can wrap, "fits" means one column and the
      panel collapses to 230px. Asking for max-content keeps all four columns as
      the preferred width, and max-width is then the only thing that makes it wrap. */
-  .menu{width:max-content;max-width:calc(100vw - 460px);
+  .menu{width:max-content;max-width:calc(100vw - 540px);
     /* Two stacked columns just above the burger breakpoint can outgrow a short
        laptop viewport, so the panel scrolls rather than running off the bottom. */
     max-height:calc(100vh - 96px);overflow-y:auto}
 }
 .menu-col{display:flex;flex-direction:column;min-width:206px}
-.menu-h{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+.menu-h{font-family:var(--label);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
   color:var(--muted);padding:8px 10px 6px;display:flex;align-items:center;gap:7px}
 .menu-h .sw{width:7px;height:7px;border-radius:2px;flex:none}
 
@@ -96,7 +95,7 @@
 /* ── the CTA, with micro1's two-layer label swap ──────────────────────── */
 .nav .end{position:relative;display:flex;align-items:center;justify-content:center;height:38px;
   padding:0 17px;border-radius:var(--pill);background:#fff;color:var(--ink);flex:none;
-  font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  font-family:var(--label);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
   overflow:hidden;white-space:nowrap;transition:background .25s var(--soft)}
 .nav .end:hover{background:var(--sky)}
 .nav .end span{display:block;transition:transform .34s var(--ease),opacity .34s var(--soft)}

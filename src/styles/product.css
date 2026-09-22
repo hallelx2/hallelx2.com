@@ -42,7 +42,7 @@ h2{font-size:clamp(28px,4vw,56px)}
 .on-c .wm i{color:var(--sky)}
 
 /* ── buttons ─────────────────────────────────────────────────────────── */
-.cta{display:inline-flex;align-items:stretch;gap:5px;min-height:46px;font-family:var(--mono);
+.cta{display:inline-flex;align-items:stretch;gap:5px;min-height:46px;font-family:var(--label);
   font-size:11px;letter-spacing:.12em;text-transform:uppercase}
 .cta .lbl{display:flex;align-items:center;padding:0 20px;border-radius:var(--pill);
   background:var(--accent);color:#fff;transition:background .3s var(--soft)}
@@ -62,7 +62,7 @@ h2{font-size:clamp(28px,4vw,56px)}
 .eyebrow{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;padding-bottom:14px;
   border-bottom:1px solid var(--ink);margin-bottom:clamp(24px,3vw,42px)}
 .eyebrow .n{font-family:var(--mark);font-weight:700;font-size:12px;color:var(--accent)}
-.eyebrow .k{font-family:var(--mono);font-size:12px;letter-spacing:.13em;text-transform:uppercase;
+.eyebrow .k{font-family:var(--label);font-size:12px;letter-spacing:.13em;text-transform:uppercase;
   line-height:1;font-weight:400}
 .eyebrow .note{flex:1 1 auto;text-align:right;font-size:13px;color:var(--muted);line-height:1.4;
   min-width:min(100%,26ch)}
@@ -75,13 +75,13 @@ h2{font-size:clamp(28px,4vw,56px)}
   background:var(--accent);color:#fff;
   padding:clamp(52px,6vh,80px) clamp(24px,3.4vw,60px) clamp(24px,3vw,40px)}
 .phero .in{max-width:1320px;margin:0 auto;position:relative;z-index:2}
-.phero .back{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;
+.phero .back{display:inline-flex;align-items:center;gap:8px;font-family:var(--label);font-size:10.5px;
   letter-spacing:.11em;text-transform:uppercase;color:var(--sky);margin-bottom:clamp(22px,3.4vw,44px);
   transition:color .22s var(--soft)}
 .phero .back:hover{color:#fff}
 .phero .back svg{width:13px;height:13px;transform:rotate(180deg)}
 .phero .cat{display:inline-block;padding:5px 12px;border-radius:var(--pill);
-  box-shadow:inset 0 0 0 1px var(--sky);font-family:var(--mono);font-size:10.5px;
+  box-shadow:inset 0 0 0 1px var(--sky);font-family:var(--label);font-size:10.5px;
   letter-spacing:.11em;text-transform:uppercase;margin-bottom:clamp(14px,1.8vw,22px)}
 .phero h1{max-width:12ch;margin-bottom:clamp(12px,1.5vw,20px)}
 /* the one sentence a business reader has to get */
@@ -114,7 +114,7 @@ h2{font-size:clamp(28px,4vw,56px)}
   padding:clamp(20px,2.4vw,32px);
   transition:box-shadow .25s var(--soft),transform .35s var(--ease)}
 a.ev:hover{box-shadow:inset 0 0 0 1.5px var(--accent);transform:translateY(-2px)}
-.ev .when{flex:none;width:clamp(76px,7vw,104px);font-family:var(--mono);font-size:10.5px;
+.ev .when{flex:none;width:clamp(76px,7vw,104px);font-family:var(--label);font-size:10.5px;
   letter-spacing:.11em;text-transform:uppercase;color:var(--accent);line-height:1.5}
 .ev .main{flex:1 1 320px;min-width:0}
 .ev .main b{display:block;font-weight:500;font-size:clamp(19px,2vw,26px);
@@ -125,7 +125,7 @@ a.ev:hover{box-shadow:inset 0 0 0 1.5px var(--accent);transform:translateY(-2px)
 .ev .nums .v{display:block;font-family:var(--mark);font-weight:700;
   font-size:clamp(18px,1.8vw,24px);color:var(--accent);line-height:1;
   font-variant-numeric:tabular-nums}
-.ev .nums .l{display:block;margin-top:6px;font-family:var(--mono);font-size:9.5px;
+.ev .nums .l{display:block;margin-top:6px;font-family:var(--label);font-size:9.5px;
   letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
 .ev .go{flex:none;width:38px;height:38px;border-radius:var(--pill);display:flex;
   align-items:center;justify-content:center;background:var(--accent);color:#fff;
@@ -150,7 +150,7 @@ a.ev:hover .go{transform:translateX(4px)}
 }
 .who .pic img{width:100%;height:100%;object-fit:cover;display:block}
 .who .pic .ph{position:absolute;inset:0;display:flex;align-items:flex-end;
-  padding:clamp(12px,1.4vw,18px);font-family:var(--mono);font-size:9.5px;
+  padding:clamp(12px,1.4vw,18px);font-family:var(--label);font-size:9.5px;
   letter-spacing:.09em;text-transform:uppercase;color:var(--sky);line-height:1.5}
 .who .bio{flex:1 1 460px}
 .who .bio p{font-size:clamp(16px,1.4vw,19.5px);line-height:1.6;color:var(--muted);
@@ -172,7 +172,7 @@ a.ev:hover .go{transform:translateX(4px)}
 .origin .b p{font-size:clamp(15px,1.25vw,17.5px);line-height:1.62;color:var(--muted)}
 .origin .b p + p{margin-top:1em}
 .origin .b b{color:var(--ink);font-weight:500}
-.origin .by{display:block;margin-top:clamp(18px,2vw,26px);font-family:var(--mono);
+.origin .by{display:block;margin-top:clamp(18px,2vw,26px);font-family:var(--label);
   font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
 
 /* three headline numbers, sitting in the hero */
@@ -193,10 +193,14 @@ a.ev:hover .go{transform:translateX(4px)}
 .rail .note b{color:var(--ink);font-weight:500}
 
 /* ── what it does: three short cards ─────────────────────────────────── */
-.does{display:flex;flex-wrap:wrap;gap:10px}
-/* six cards want 3+3, not 4+2 — a wider basis forces the break */
-.does--3 .do{flex:1 1 380px}
-.do{flex:1 1 270px;background:#fff;border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--line);
+/* Square, like every other card set on the site. A three-column grid rather
+   than a wrapping flex row, because flex-basis gives you whatever width is
+   left over and squares need the columns to be equal. aspect-ratio sets the
+   floor, not a ceiling — a card with more text than fits grows taller instead
+   of clipping, which is what keeps the long ones on /how-i-work readable. */
+.does{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.do{aspect-ratio:1;display:flex;flex-direction:column;
+  background:#fff;border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--line);
   padding:clamp(22px,2.4vw,32px)}
 .do .i{width:34px;height:34px;color:var(--accent);margin-bottom:16px}
 .do .i svg{width:34px;height:34px}
@@ -211,7 +215,7 @@ a.ev:hover .go{transform:translateX(4px)}
   display:flex;flex-direction:column}
 .chart.wide{flex-basis:100%}
 .chart h3{font-size:clamp(16px,1.5vw,20px);letter-spacing:-.028em;margin-bottom:4px}
-.chart .cap{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+.chart .cap{font-family:var(--label);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
   color:var(--muted);margin-bottom:clamp(16px,2vw,24px)}
 .chart svg{width:100%;height:auto;margin-bottom:16px}
 .chart svg text{font-family:var(--display)}
@@ -230,6 +234,20 @@ a.ev:hover .go{transform:translateX(4px)}
    below a readable size on a phone */
 .chart.heat svg{min-width:660px}
 .chart.heat{overflow-x:auto}
+
+/* ── the heatmap readout ──────────────────────────────────────────────
+   .heat is the positioning context for the tooltip; the grid inside it
+   scrolls on its own, so the tip is clamped to the card in script rather
+   than allowed to ride out past the rounded edge. */
+.chart.heat{position:relative}
+.chart.heat .hc{cursor:pointer}
+.chart.heat .hc:hover{stroke:var(--ink);stroke-width:1.2;paint-order:stroke}
+.heat-tip{position:absolute;z-index:5;pointer-events:none;
+  background:var(--ink);color:#fff;border-radius:8px;
+  padding:6px 10px;font-size:12px;line-height:1.3;white-space:nowrap;
+  box-shadow:0 8px 24px -8px oklch(23.6% .002 68 / .4)}
+.heat-read{margin-top:12px;font-size:13px;color:var(--muted);min-height:1.3em}
+
 
 /* ── system architecture ──────────────────────────────────────────────
    Layered boxes with the real data flow between them, drawn from the
@@ -258,7 +276,7 @@ a.ev:hover .go{transform:translateX(4px)}
   text-align:center}
 .pull p{font-size:clamp(22px,2.6vw,36px);line-height:1.18;letter-spacing:-.032em;
   font-weight:500;text-wrap:balance}
-.pull .src{display:block;margin-top:clamp(14px,1.8vw,22px);font-family:var(--mono);
+.pull .src{display:block;margin-top:clamp(14px,1.8vw,22px);font-family:var(--label);
   font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
 
 /* ── square cards ─────────────────────────────────────────────────────
@@ -284,7 +302,7 @@ a.sq:hover{box-shadow:inset 0 0 0 1.5px var(--accent);transform:translateY(-3px)
 .sq .story b{color:var(--ink);font-weight:500}
 .sq .meta-row{margin-top:auto;padding-top:14px;display:flex;flex-wrap:wrap;
   align-items:center;gap:8px;border-top:1px solid var(--line)}
-.sq .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
+.sq .tag{font-family:var(--label);font-size:9.5px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--muted)}
 .sq .ver{font-family:var(--mark);font-weight:700;font-size:11px;color:var(--accent);
   font-variant-numeric:tabular-nums}
@@ -294,9 +312,15 @@ a.sq:hover{box-shadow:inset 0 0 0 1.5px var(--accent);transform:translateY(-3px)
 .sq .go svg{width:13px;height:13px}
 a.sq:hover .go{transform:translateX(3px)}
 
-@media (max-width:1000px){.sqs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:1000px){.sqs,.does{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){
-  .sqs{grid-template-columns:1fr}
+  /* minmax(0,1fr), not 1fr. A bare 1fr is minmax(auto,1fr), so the track
+     refuses to go below its content's min-width and one long unbreakable
+     token — repo:hallelx2/mercala:ref:refs/heads/main — pushes the whole
+     grid past the viewport. Caught at 390px on /stack/java. */
+  .sqs,.does{grid-template-columns:minmax(0,1fr)}
+  /* One per row on a phone, and a square that tall wastes the screen. */
+  .do{aspect-ratio:auto}
   .sq{aspect-ratio:auto;min-height:0}
 }
 
@@ -337,7 +361,7 @@ a.sq:hover .go{transform:translateX(3px)}
 .step .face .n{font-family:var(--mark);font-weight:700;font-size:11px;color:var(--accent)}
 .step .face b{display:block;font-weight:500;font-size:clamp(15px,1.5vw,20px);
   letter-spacing:-.028em;line-height:1.1}
-.step .face .hint{font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+.step .face .hint{font-family:var(--label);font-size:9px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--muted);margin-top:6px}
 
 .step .detail{position:absolute;inset:0;background:var(--accent);color:#fff;
@@ -355,7 +379,7 @@ a.sq:hover .go{transform:translateX(3px)}
 /* max-width and the wrap guard matter: a chip wider than the tile does not
    get wrapped by flex-wrap, it just overflows and is clipped by the tile's
    own overflow:hidden. Measured at 1000px, where a tile is 145px wide. */
-.step .detail .tools span{font-family:var(--mono);font-size:8.5px;letter-spacing:.07em;
+.step .detail .tools span{font-family:var(--label);font-size:8.5px;letter-spacing:.07em;
   text-transform:uppercase;padding:3px 6px;border-radius:var(--r-xs);
   box-shadow:inset 0 0 0 1px var(--rule);color:#fff;max-width:100%;overflow-wrap:anywhere}
 .step:hover .detail,.step:focus-within .detail,.step.open .detail{opacity:1;visibility:visible;
@@ -392,7 +416,7 @@ a.sq:hover .go{transform:translateX(3px)}
 details.full{margin-top:10px;background:#fff;border-radius:var(--r);
   box-shadow:inset 0 0 0 1px var(--line);overflow:hidden}
 details.full summary{cursor:pointer;list-style:none;padding:clamp(16px,1.8vw,22px) clamp(18px,2.2vw,30px);
-  font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  font-family:var(--label);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
   color:var(--accent);display:flex;align-items:center;gap:10px}
 details.full summary::-webkit-details-marker{display:none}
 details.full summary::after{content:'';width:8px;height:8px;border-right:1.5px solid currentColor;
@@ -403,7 +427,7 @@ details.full .body{padding:0 clamp(18px,2.2vw,30px) clamp(20px,2.4vw,30px)}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 th,td{text-align:right;padding:9px 8px;border-bottom:1px solid var(--line);font-size:14.5px}
 th:first-child,td:first-child{text-align:left;padding-left:0}
-th{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+th{font-family:var(--label);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--muted);font-weight:400}
 td:last-child{padding-right:0}
 tbody tr:last-child td{border-bottom:0}
@@ -426,7 +450,7 @@ tbody tr:last-child td{border-bottom:0}
 .more a{flex:1 1 210px;background:#fff;border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--line);
   padding:clamp(18px,2vw,26px);transition:box-shadow .25s var(--soft),transform .35s var(--ease)}
 .more a:hover{box-shadow:inset 0 0 0 1.5px var(--ink);transform:translateY(-2px)}
-.more .c{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.11em;
+.more .c{display:block;font-family:var(--label);font-size:10px;letter-spacing:.11em;
   text-transform:uppercase;margin-bottom:9px}
 .more .n2{display:block;font-size:20px;letter-spacing:-.03em;margin-bottom:5px}
 .more .d{display:block;font-size:13.5px;color:var(--muted);line-height:1.45}
@@ -446,7 +470,7 @@ tbody tr:last-child td{border-bottom:0}
    rule under the link columns belongs here too. Blue stays blue on every
    category, because the footer is site chrome, not product chrome. */
 /* footer chrome lives in assets/footer.css — one source, all pages */
-.meta{font-family:var(--mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase}
+.meta{font-family:var(--label);font-size:11px;letter-spacing:.11em;text-transform:uppercase}
 
 /* ── reveal (fails open: visible unless JS arms it) ──────────────────── */
 [data-reveal]{opacity:1}
@@ -469,3 +493,68 @@ tbody tr:last-child td{border-bottom:0}
   .armed .chart .draw{stroke-dashoffset:0!important;transition:none!important}
   .cta:hover .go{transform:none}
 }
+
+/* Inline code is the one run of text on these pages that IS code, so it is
+   the one that keeps the mono face after labels moved to the grotesque. */
+code{font-family:var(--mono);font-size:.92em;
+  background:var(--line);border-radius:5px;padding:.1em .38em;
+  /* Long identifiers — ARNs, trust conditions, module paths — must be allowed
+     to break, or one sets a min-width the grid track cannot go under. */
+  overflow-wrap:anywhere}
+
+/* ── icon-led labels ──────────────────────────────────────────────────
+   Four places carry a mark instead of spelling the category out: card
+   tags, the staircase tool chips, section eyebrows, and the utility
+   links. .ic sizes to the text it sits beside, so one rule covers a
+   9px chip and a 12px eyebrow without a second declaration. */
+.ic{width:1.15em;height:1.15em;flex:none;color:var(--accent)}
+.ic svg{width:100%;height:100%;display:block}
+
+.sq .tag{display:inline-flex;align-items:center;gap:6px}
+.step .detail .tools span{display:inline-flex;align-items:center;gap:5px}
+.step .detail .tools .ic{color:currentColor;opacity:.75}
+
+.eyebrow .k{display:inline-flex;align-items:center;gap:9px}
+.eyebrow .k .ic{width:1.05em;height:1.05em}
+
+/* The utility links lead with the mark and let the word sit second, so the
+   affordance is the icon and the label is the confirmation. */
+.foot-base .r a{display:inline-flex;align-items:center;gap:7px}
+.foot-base .r a .ic{width:13px;height:13px;color:currentColor}
+
+/* ── the article figure ───────────────────────────────────────────────
+   Modelled on the figures in the long-form articles: a kicker, one claim
+   set big, a chain of boxes with the flow between them, and a caption
+   that carries the argument rather than repeating the picture.
+
+   The chain is flex rather than the absolute positioning the articles
+   use, because this one has to survive 390px as well as 1440. */
+.fig{background:#fff;border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--line);
+  padding:clamp(22px,2.6vw,40px)}
+.fig .kicker{display:block;font-family:var(--label);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.fig h3{font-size:clamp(21px,2.4vw,34px);font-weight:500;letter-spacing:-.03em;
+  line-height:1.12;margin:0 0 clamp(20px,2.4vw,32px);max-width:32ch}
+.fig .chain{display:flex;align-items:stretch;flex-wrap:wrap;gap:10px}
+.fig .node{flex:1 1 170px;min-width:0;border-radius:12px;padding:14px 16px;
+  box-shadow:inset 0 0 0 1px var(--line);display:flex;flex-direction:column;gap:4px}
+.fig .node .t{font-weight:500;font-size:15px;letter-spacing:-.02em;line-height:1.2}
+.fig .node .s{font-size:12.5px;line-height:1.4;color:var(--muted)}
+.fig .node--on{background:var(--accent);box-shadow:none}
+.fig .node--on .t{color:#fff}
+.fig .node--on .s{color:oklch(100% 0 0 / .78)}
+.fig .node--off{opacity:.55}
+.fig .node--off .t{text-decoration:line-through;text-decoration-thickness:1.5px}
+/* The arrow is a separator, not a node, so it never takes chain width. */
+.fig .to{flex:0 0 auto;align-self:center;width:20px;height:20px;color:var(--accent)}
+.fig .to svg{width:100%;height:100%;display:block}
+.fig .cap{margin-top:clamp(18px,2.2vw,28px);font-size:15px;line-height:1.62;
+  color:var(--muted);max-width:74ch}
+.fig .cap b{color:var(--ink);font-weight:500}
+.fig .band{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(18px,2.2vw,26px)}
+.fig .band .m{flex:1 1 150px;border-radius:12px;padding:14px 16px;
+  box-shadow:inset 0 0 0 1px var(--line)}
+.fig .band .m .v{display:block;font-family:var(--mark);font-weight:700;
+  font-size:clamp(20px,2.2vw,30px);color:var(--accent);font-variant-numeric:tabular-nums}
+.fig .band .m .l{display:block;margin-top:5px;font-size:12.5px;line-height:1.4;color:var(--muted)}
+@media (max-width:620px){.fig .to{transform:rotate(90deg)}.fig .node{flex:1 1 100%}}
