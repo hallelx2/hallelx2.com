@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<title>Stack — the layers, and what each one runs</title>
+<path d="M24 6 6 15l18 9 18-9z"/>
+<path d="m6 24 18 9 18-9"/>
+<path d="m6 33 18 9 18-9"/>
+</svg>
