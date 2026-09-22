@@ -24,10 +24,15 @@
      added. Rather than encode that as a constant that goes stale, measure the
      panel where it landed and translate it back by however much it overhangs.
      Runs on open and on resize; costs one layout read per open. */
-  var GUTTER = 16;
   function clampMenu(it) {
     var m = it.querySelector('.menu');
     if (!m) return;
+    /* Clamp to the nav's own left edge, not an arbitrary margin. The nav is
+       positioned at left:var(--gutter), which is clamp(20px,4vw,72px) — so a
+       fixed 16px let the panel sit outside the pill it hangs from, by 4px at
+       390 and more as the gutter grows. Reading the resolved value tracks the
+       clamp() at every width and survives a resize. */
+    var gutter = parseFloat(getComputedStyle(nav).left) || 16;
     /* Compute where centring WOULD put it, rather than reading back where it
        currently is: transform is transitioned, so a rect read on open measures
        the panel mid-animation and produces a different answer every time.
@@ -39,8 +44,8 @@
     var left = centre - w / 2;
     var right = centre + w / 2;
     var shift = 0;
-    if (left < GUTTER) shift = GUTTER - left;
-    else if (right > vw - GUTTER) shift = (vw - GUTTER) - right;
+    if (left < gutter) shift = gutter - left;
+    else if (right > vw - gutter) shift = (vw - gutter) - right;
     m.setAttribute('data-shift', '');
     m.style.setProperty('--shift', Math.round(shift) + 'px');
   }
