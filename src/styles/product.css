@@ -517,8 +517,10 @@ code{font-family:var(--mono);font-size:.92em;
 .step .detail .tools span{display:inline-flex;align-items:center;gap:5px}
 .step .detail .tools .ic{color:currentColor;opacity:.75}
 
-.eyebrow .k{display:inline-flex;align-items:center;gap:9px}
-.eyebrow .k .ic{width:1.05em;height:1.05em}
+/* No icon on a section eyebrow. An icon can stand in for a thing — a package,
+   a repo, a status, a tool — but not for an idea, and every eyebrow here names
+   an idea ("Why it exists", "Straight talk"). Keyword-matching them also went
+   wrong in a way worth remembering: /ai/ matched "tr(ai)ning". */
 
 /* The utility links lead with the mark and let the word sit second, so the
    affordance is the icon and the label is the confirmation. */
