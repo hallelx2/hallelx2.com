@@ -70,10 +70,22 @@
      is shrink-to-fit; once .menu-cols can wrap, "fits" means one column and the
      panel collapses to 230px. Asking for max-content keeps all four columns as
      the preferred width, and max-width is then the only thing that makes it wrap. */
-  .menu{width:max-content;max-width:calc(100vw - 540px);
+  /* The cap used to be 100vw minus a constant derived from where the first nav
+     item sat. That constant went stale every time a nav item was added — three
+     times — because adding one moves every item's centre. The panel is clamped
+     in nav.js against its own measured box instead, which cannot go stale.
+     This is only the ceiling that makes the columns wrap on a narrow screen.
+     Without the script the panel still opens on hover and may overhang on a
+     narrow viewport — the same fail-open posture as the rest of nav.js. */
+  .menu{width:max-content;max-width:calc(100vw - 2 * var(--gutter));
     /* Two stacked columns just above the burger breakpoint can outgrow a short
        laptop viewport, so the panel scrolls rather than running off the bottom. */
     max-height:calc(100vh - 96px);overflow-y:auto}
+  /* Set by nav.js when centring would push the panel off either edge. */
+  .navitem.has-menu .menu[data-shift]{
+    transform:translateX(calc(-50% + var(--shift))) translateY(-6px)}
+  .navitem.has-menu.open .menu[data-shift]{
+    transform:translateX(calc(-50% + var(--shift))) translateY(0)}
 }
 .menu-col{display:flex;flex-direction:column;min-width:206px}
 .menu-h{font-family:var(--label);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
