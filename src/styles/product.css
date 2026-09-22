@@ -470,7 +470,10 @@ tbody tr:last-child td{border-bottom:0}
    rule under the link columns belongs here too. Blue stays blue on every
    category, because the footer is site chrome, not product chrome. */
 /* footer chrome lives in assets/footer.css — one source, all pages */
-.meta{font-family:var(--label);font-size:11px;letter-spacing:.11em;text-transform:uppercase}
+/* The footer keeps the mono face. It is the one chrome element where the
+   typewriter label is the design rather than decoration — .meta is only
+   ever used as `foot-base meta`, so it belongs with footer.css's rules. */
+.meta{font-family:var(--mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase}
 
 /* ── reveal (fails open: visible unless JS arms it) ──────────────────── */
 [data-reveal]{opacity:1}
