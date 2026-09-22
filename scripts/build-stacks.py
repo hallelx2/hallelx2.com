@@ -8,7 +8,7 @@ a repo does not publish a number, the page says so instead of estimating one.
 
     python3 scripts/build-stacks.py && node scripts/port.mjs
 """
-from pagekit import arch, sec, does, talk, table, pull, page, fig, chain, node
+from pagekit import sec, does, talk, pull, page, fig, chain, node
 
 REPO = "https://github.com/hallelx2"
 BACK = ("hallelx2-stack.html", "My stack")

@@ -286,14 +286,28 @@ const heatScript = `<script>
   }
   function clear() { tip.hidden = true; if (read) read.textContent = rest; }
 
+  /* Hovering is a mouse and pen idea. A touch pointer fires pointerover on
+     contact and pointerleave the instant the finger lifts, so treating touch
+     as hover made a tap show its answer only while the finger was covering
+     the cell — measured, not assumed. Touch therefore taps to set and taps
+     away to clear, and only a hovering device clears on leave. */
   wrap.addEventListener('pointerover', function (e) {
+    if (e.pointerType === 'touch') return;
     var el = e.target.closest && e.target.closest('.hc');
     if (el) say(el);
   });
-  wrap.addEventListener('pointerleave', clear);
+  wrap.addEventListener('pointerleave', function (e) {
+    if (e.pointerType === 'touch') return;
+    clear();
+  });
+  /* No preventDefault here. pointerdown is cancelable on touch, and the grid
+     scrolls sideways on a narrow screen — cancelling it killed the pan. */
   wrap.addEventListener('pointerdown', function (e) {
     var el = e.target.closest && e.target.closest('.hc');
-    if (el) { say(el); e.preventDefault(); }
+    if (el) say(el);
+  });
+  document.addEventListener('pointerdown', function (e) {
+    if (!wrap.contains(e.target)) clear();
   });
 })();
 <\/script>`;

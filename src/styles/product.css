@@ -497,7 +497,10 @@ tbody tr:last-child td{border-bottom:0}
 /* Inline code is the one run of text on these pages that IS code, so it is
    the one that keeps the mono face after labels moved to the grotesque. */
 code{font-family:var(--mono);font-size:.92em;
-  background:var(--line);border-radius:5px;padding:.1em .38em}
+  background:var(--line);border-radius:5px;padding:.1em .38em;
+  /* Long identifiers — ARNs, trust conditions, module paths — must be allowed
+     to break, or one sets a min-width the grid track cannot go under. */
+  overflow-wrap:anywhere}
 
 /* ── icon-led labels ──────────────────────────────────────────────────
    Four places carry a mark instead of spelling the category out: card
@@ -555,7 +558,3 @@ code{font-family:var(--mono);font-size:.92em;
   font-size:clamp(20px,2.2vw,30px);color:var(--accent);font-variant-numeric:tabular-nums}
 .fig .band .m .l{display:block;margin-top:5px;font-size:12.5px;line-height:1.4;color:var(--muted)}
 @media (max-width:620px){.fig .to{transform:rotate(90deg)}.fig .node{flex:1 1 100%}}
-
-/* Long identifiers inside code — ARNs, trust conditions, module paths — must
-   be allowed to break, or they set a min-width the grid track cannot go under. */
-code{overflow-wrap:anywhere}
