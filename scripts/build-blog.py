@@ -66,7 +66,10 @@ page(
     "writing", "Writing &middot; Published on X", "Writing",
     "Five arguments I cared enough about to write at length, and publish under my own name.",
     [("5", "articles published on X, the most recent on 18 September 2026"),
-     ("~5,600", "reads across them, as X reported on 22 September 2026"),
+     # X truncates: "1K" is 1,000-1,099 and "1.7K" is 1,700-1,799. So the only
+     # defensible aggregate is a floor — 522 + 1,000 + 1,500 + 915 + 1,700 —
+     # not a point estimate, which would sit BELOW the true minimum.
+     ("5,600+", "reads across them, the floor of X&rsquo;s own figures on 22 September 2026"),
      ("0", "of them written to a brief &mdash; each one started as something I had to work out")],
     [
      sec("01", "The arguments", "Each opens on X, where it was published.",
