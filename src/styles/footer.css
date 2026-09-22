@@ -14,7 +14,7 @@
   gap:clamp(26px,3vw,48px);
   padding-bottom:clamp(30px,3.6vw,48px);border-bottom:1px solid var(--line)}
 .foot-say{max-width:34ch}
-.foot-say .bn{display:block;font-family:var(--label);font-size:10px;letter-spacing:.12em;
+.foot-say .bn{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;
   text-transform:uppercase;color:var(--muted);margin-bottom:13px}
 .foot-say p{font-size:clamp(15px,1.15vw,16.5px);line-height:1.55;color:var(--muted);
   margin-bottom:clamp(16px,1.8vw,22px)}
@@ -26,7 +26,7 @@
   .foot-nav{grid-template-columns:repeat(2,minmax(120px,1fr))}
   .foot-say{grid-column:1 / -1;max-width:46ch}
 }
-.foot-nav h3{font-family:var(--label);font-size:10px;font-weight:400;letter-spacing:.12em;
+.foot-nav h3{font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.12em;
   text-transform:uppercase;color:var(--muted);margin-bottom:13px}
 .foot-nav h3 .sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:7px;
   vertical-align:0}
