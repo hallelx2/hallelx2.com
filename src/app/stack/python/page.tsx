@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import StackPythonView from "@/module/site/views/StackPythonView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Python — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <StackPythonView />;
+  return (
+    <>
+      <JsonLd route={"/stack/python"} title={metadata.title as string} description={metadata.description as string} />
+      <StackPythonView />
+    </>
+  );
 }

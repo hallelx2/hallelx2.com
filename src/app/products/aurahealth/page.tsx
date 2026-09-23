@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AurahealthProductView from "@/module/site/views/AurahealthProductView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "AuraHealth — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <AurahealthProductView />;
+  return (
+    <>
+      <JsonLd route={"/products/aurahealth"} title={metadata.title as string} description={metadata.description as string} />
+      <AurahealthProductView />
+    </>
+  );
 }

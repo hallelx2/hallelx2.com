@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import StackJavaView from "@/module/site/views/StackJavaView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Java 21 and Spring AI — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <StackJavaView />;
+  return (
+    <>
+      <JsonLd route={"/stack/java"} title={metadata.title as string} description={metadata.description as string} />
+      <StackJavaView />
+    </>
+  );
 }

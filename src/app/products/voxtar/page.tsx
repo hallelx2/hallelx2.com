@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import VoxtarProductView from "@/module/site/views/VoxtarProductView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Voxtar — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <VoxtarProductView />;
+  return (
+    <>
+      <JsonLd route={"/products/voxtar"} title={metadata.title as string} description={metadata.description as string} />
+      <VoxtarProductView />
+    </>
+  );
 }

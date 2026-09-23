@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import LandingView from "@/module/site/views/LandingView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "hallelx2 labs — building the products healthcare, education and the AI ecosystem need",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <LandingView />;
+  return (
+    <>
+      <JsonLd route={"/"} title={metadata.title as string} description={metadata.description as string} />
+      <LandingView />
+    </>
+  );
 }

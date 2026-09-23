@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CoursifiedProductView from "@/module/site/views/CoursifiedProductView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Coursified — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <CoursifiedProductView />;
+  return (
+    <>
+      <JsonLd route={"/products/coursified"} title={metadata.title as string} description={metadata.description as string} />
+      <CoursifiedProductView />
+    </>
+  );
 }

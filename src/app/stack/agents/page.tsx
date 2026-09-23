@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import StackAgentsView from "@/module/site/views/StackAgentsView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Agents, MCP and the design loop — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <StackAgentsView />;
+  return (
+    <>
+      <JsonLd route={"/stack/agents"} title={metadata.title as string} description={metadata.description as string} />
+      <StackAgentsView />
+    </>
+  );
 }

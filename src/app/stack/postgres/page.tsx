@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import StackPostgresView from "@/module/site/views/StackPostgresView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Postgres, Drizzle and Hono — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <StackPostgresView />;
+  return (
+    <>
+      <JsonLd route={"/stack/postgres"} title={metadata.title as string} description={metadata.description as string} />
+      <StackPostgresView />
+    </>
+  );
 }

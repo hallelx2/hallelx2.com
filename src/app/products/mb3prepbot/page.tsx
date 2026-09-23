@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Mb3prepbotProductView from "@/module/site/views/Mb3prepbotProductView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "MB3 Prepbot — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <Mb3prepbotProductView />;
+  return (
+    <>
+      <JsonLd route={"/products/mb3prepbot"} title={metadata.title as string} description={metadata.description as string} />
+      <Mb3prepbotProductView />
+    </>
+  );
 }

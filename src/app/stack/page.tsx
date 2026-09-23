@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import StackView from "@/module/site/views/StackView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "My stack — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <StackView />;
+  return (
+    <>
+      <JsonLd route={"/stack"} title={metadata.title as string} description={metadata.description as string} />
+      <StackView />
+    </>
+  );
 }

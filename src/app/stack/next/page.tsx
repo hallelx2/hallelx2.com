@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import StackNextView from "@/module/site/views/StackNextView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Next.js — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <StackNextView />;
+  return (
+    <>
+      <JsonLd route={"/stack/next"} title={metadata.title as string} description={metadata.description as string} />
+      <StackNextView />
+    </>
+  );
 }

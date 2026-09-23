@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import TrainingView from "@/module/site/views/TrainingView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Training — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <TrainingView />;
+  return (
+    <>
+      <JsonLd route={"/training"} title={metadata.title as string} description={metadata.description as string} />
+      <TrainingView />
+    </>
+  );
 }

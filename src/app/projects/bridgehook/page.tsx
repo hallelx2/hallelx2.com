@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import BridgehookView from "@/module/site/views/BridgehookView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "BridgeHook — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <BridgehookView />;
+  return (
+    <>
+      <JsonLd route={"/projects/bridgehook"} title={metadata.title as string} description={metadata.description as string} />
+      <BridgehookView />
+    </>
+  );
 }

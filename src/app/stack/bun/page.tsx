@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import StackBunView from "@/module/site/views/StackBunView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Bun — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <StackBunView />;
+  return (
+    <>
+      <JsonLd route={"/stack/bun"} title={metadata.title as string} description={metadata.description as string} />
+      <StackBunView />
+    </>
+  );
 }

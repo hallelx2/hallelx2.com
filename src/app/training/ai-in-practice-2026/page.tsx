@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import TrainingAiInPractice2026View from "@/module/site/views/TrainingAiInPractice2026View";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "AI in Practice, August 2026 — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <TrainingAiInPractice2026View />;
+  return (
+    <>
+      <JsonLd route={"/training/ai-in-practice-2026"} title={metadata.title as string} description={metadata.description as string} />
+      <TrainingAiInPractice2026View />
+    </>
+  );
 }

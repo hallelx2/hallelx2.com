@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import HowIWorkView from "@/module/site/views/HowIWorkView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "How I work — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <HowIWorkView />;
+  return (
+    <>
+      <JsonLd route={"/how-i-work"} title={metadata.title as string} description={metadata.description as string} />
+      <HowIWorkView />
+    </>
+  );
 }

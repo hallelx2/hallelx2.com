@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ActivityView from "@/module/site/views/ActivityView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Activity — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ActivityView />;
+  return (
+    <>
+      <JsonLd route={"/activity"} title={metadata.title as string} description={metadata.description as string} />
+      <ActivityView />
+    </>
+  );
 }

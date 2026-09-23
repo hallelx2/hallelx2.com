@@ -362,18 +362,38 @@ export default function ${page.view}View() {
 }
 `);
 
+  // A meta attribute is not HTML content, so an entity written there is literal
+  // text by the time it reaches a JS string — it would render as "&rsquo;s" in
+  // both the meta tag and the JSON-LD. Decode the handful that show up.
+  const decode = (t) => t
+    .replace(/&rsquo;/g, "\u2019").replace(/&lsquo;/g, "\u2018")
+    .replace(/&ldquo;/g, "\u201c").replace(/&rdquo;/g, "\u201d")
+    .replace(/&mdash;/g, "\u2014").replace(/&ndash;/g, "\u2013")
+    .replace(/&hellip;/g, "\u2026").replace(/&nbsp;/g, "\u00a0")
+    .replace(/&amp;/g, "&");
+
   const routeDir = page.route ? `src/app/${page.route}` : "src/app";
+  // Structured data rides on the same title/description the metadata uses, so
+  // the two can never disagree. The graph itself lives in src/module/site/schema.ts.
+  const routePath = page.route ? `/${page.route}` : "/";
+  const metaTitle = decode(title), metaDesc = decode(desc);
   write(path.join(ROOT, routeDir, "page.tsx"),
     `import type { Metadata } from "next";
 import ${page.view}View from "@/module/site/views/${page.view}View";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: ${JSON.stringify(title)},
-  description: ${JSON.stringify(desc)},
+  title: ${JSON.stringify(metaTitle)},
+  description: ${JSON.stringify(metaDesc)},
 };
 
 export default function Page() {
-  return <${page.view}View />;
+  return (
+    <>
+      <JsonLd route={${JSON.stringify(routePath)}} title={metadata.title as string} description={metadata.description as string} />
+      <${page.view}View />
+    </>
+  );
 }
 `);
   summary.push(`${page.src} → /${page.route}  (styles:${allStyles.length} scripts:${ctx.scripts.length} productCss:${usesProductCss})`);

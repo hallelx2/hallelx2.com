@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import MercalaView from "@/module/site/views/MercalaView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Mercala — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <MercalaView />;
+  return (
+    <>
+      <JsonLd route={"/projects/mercala"} title={metadata.title as string} description={metadata.description as string} />
+      <MercalaView />
+    </>
+  );
 }

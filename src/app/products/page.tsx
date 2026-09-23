@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ProductsIndexView from "@/module/site/views/ProductsIndexView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Projects — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ProductsIndexView />;
+  return (
+    <>
+      <JsonLd route={"/products"} title={metadata.title as string} description={metadata.description as string} />
+      <ProductsIndexView />
+    </>
+  );
 }

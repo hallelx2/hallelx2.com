@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import StackExpoView from "@/module/site/views/StackExpoView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Expo and React Native — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <StackExpoView />;
+  return (
+    <>
+      <JsonLd route={"/stack/expo"} title={metadata.title as string} description={metadata.description as string} />
+      <StackExpoView />
+    </>
+  );
 }

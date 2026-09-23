@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import WritingView from "@/module/site/views/WritingView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Writing — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <WritingView />;
+  return (
+    <>
+      <JsonLd route={"/writing"} title={metadata.title as string} description={metadata.description as string} />
+      <WritingView />
+    </>
+  );
 }
