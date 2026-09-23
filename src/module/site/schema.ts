@@ -16,6 +16,7 @@ export const SITE = "https://hallelx2.com";
 /** One canonical id for the person, referenced by every other node. */
 export const PERSON_ID = `${SITE}/#halleluyah`;
 const SITE_ID = `${SITE}/#website`;
+const ORG_ID = `${SITE}/#labs`;
 
 export const person = {
   "@type": "Person",
@@ -34,6 +35,7 @@ export const person = {
   alumniOf: { "@type": "CollegeOrUniversity", name: "University of Ibadan" },
   address: { "@type": "PostalAddress", addressLocality: "Ibadan", addressCountry: "NG" },
   email: "mailto:halleluyaholudele@gmail.com",
+  worksFor: { "@id": ORG_ID },
   /* Only what the site can show you a repository or a page for. */
   knowsAbout: [
     "Go", "TypeScript", "Python", "Java", "Bun", "Next.js", "React Native", "Expo",
@@ -43,13 +45,35 @@ export const person = {
   ],
 } as const;
 
+
+/* hallelx2 labs as an entity in its own right.
+ *
+ * It is one person, and the site says "Independent" — so numberOfEmployees is
+ * stated rather than left for a reader to assume a company sits behind it, and
+ * founder points at the human. No address beyond the city, no registration
+ * number, no funding: none of that exists to claim. */
+const organization = {
+  "@type": "Organization",
+  "@id": ORG_ID,
+  name: "hallelx2 labs",
+  url: SITE,
+  logo: `${SITE}/assets/img/og-card.png`,
+  description:
+    "An independent software lab building products across healthcare, education " +
+    "and the AI layer underneath them, plus the open-source libraries they run on.",
+  founder: { "@id": PERSON_ID },
+  numberOfEmployees: { "@type": "QuantitativeValue", value: 1 },
+  address: { "@type": "PostalAddress", addressLocality: "Ibadan", addressCountry: "NG" },
+  sameAs: ["https://github.com/hallelx2", "https://x.com/hallelx2"],
+} as const;
+
 const website = {
   "@type": "WebSite",
   "@id": SITE_ID,
   url: SITE,
   name: "hallelx2 labs",
   inLanguage: "en",
-  publisher: { "@id": PERSON_ID },
+  publisher: { "@id": ORG_ID },
   author: { "@id": PERSON_ID },
 } as const;
 
@@ -127,7 +151,7 @@ function crumbs(route: string, title: string) {
  */
 export function graphFor(route: string, title: string, description: string) {
   const url = `${SITE}${route === "/" ? "" : route}`;
-  const nodes: Record<string, unknown>[] = [person, website];
+  const nodes: Record<string, unknown>[] = [person, organization, website];
 
   const page: Record<string, unknown> = {
     "@type": route === "/about" ? "ProfilePage" : "WebPage",
@@ -153,6 +177,7 @@ export function graphFor(route: string, title: string, description: string) {
       url,
       applicationCategory: app.category,
       author: { "@id": PERSON_ID },
+      publisher: { "@id": ORG_ID },
       ...(app.language ? { programmingLanguage: app.language } : {}),
       ...(app.repo ? { codeRepository: app.repo } : {}),
       ...(app.license ? { license: app.license } : {}),
@@ -184,7 +209,7 @@ export function graphFor(route: string, title: string, description: string) {
       description,
       url,
       author: { "@id": PERSON_ID },
-      publisher: { "@id": PERSON_ID },
+      publisher: { "@id": ORG_ID },
       isPartOf: { "@id": SITE_ID },
       inLanguage: "en",
     });
