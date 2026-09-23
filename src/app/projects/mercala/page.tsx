@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import MercalaView from "@/module/site/views/MercalaView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Mercala — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <MercalaView />;
+  return (
+    <>
+      <JsonLd route={"/projects/mercala"} title={"Mercala — hallelx2 labs"} description={"An agent-native, multi-tenant commerce platform in Java 21 and Spring AI — hybrid search without Elasticsearch, three layers of tenant isolation, and a transactional outbox over Kafka."} />
+      <MercalaView />
+    </>
+  );
 }

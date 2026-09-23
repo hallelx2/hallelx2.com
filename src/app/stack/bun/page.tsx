@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import StackBunView from "@/module/site/views/StackBunView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Bun — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <StackBunView />;
+  return (
+    <>
+      <JsonLd route={"/stack/bun"} title={"Bun — hallelx2 labs"} description={"How Tether's API runs on Bun with an empty dependency block: Bun.serve, bun:sqlite, argon2id through Bun.password, one compiled executable, and the event-loop-lag metric that makes a synchronous database safe."} />
+      <StackBunView />
+    </>
+  );
 }

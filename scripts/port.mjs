@@ -363,9 +363,13 @@ export default function ${page.view}View() {
 `);
 
   const routeDir = page.route ? `src/app/${page.route}` : "src/app";
+  // Structured data rides on the same title/description the metadata uses, so
+  // the two can never disagree. The graph itself lives in src/module/site/schema.ts.
+  const routePath = page.route ? `/${page.route}` : "/";
   write(path.join(ROOT, routeDir, "page.tsx"),
     `import type { Metadata } from "next";
 import ${page.view}View from "@/module/site/views/${page.view}View";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: ${JSON.stringify(title)},
@@ -373,7 +377,12 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <${page.view}View />;
+  return (
+    <>
+      <JsonLd route={${JSON.stringify(routePath)}} title={${JSON.stringify(title)}} description={${JSON.stringify(desc)}} />
+      <${page.view}View />
+    </>
+  );
 }
 `);
   summary.push(`${page.src} → /${page.route}  (styles:${allStyles.length} scripts:${ctx.scripts.length} productCss:${usesProductCss})`);

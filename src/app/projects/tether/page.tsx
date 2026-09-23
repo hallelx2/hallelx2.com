@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import TetherView from "@/module/site/views/TetherView";
+import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Tether — hallelx2 labs",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <TetherView />;
+  return (
+    <>
+      <JsonLd route={"/projects/tether"} title={"Tether — hallelx2 labs"} description={"Know where your things are. A Bun backend with zero dependencies, SSE instead of WebSockets, and a compare-and-swap that makes the lost update unexpressible."} />
+      <TetherView />
+    </>
+  );
 }
