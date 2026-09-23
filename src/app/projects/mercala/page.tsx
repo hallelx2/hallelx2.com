@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <JsonLd route={"/projects/mercala"} title={"Mercala — hallelx2 labs"} description={"An agent-native, multi-tenant commerce platform in Java 21 and Spring AI — hybrid search without Elasticsearch, three layers of tenant isolation, and a transactional outbox over Kafka."} />
+      <JsonLd route={"/projects/mercala"} title={metadata.title as string} description={metadata.description as string} />
       <MercalaView />
     </>
   );

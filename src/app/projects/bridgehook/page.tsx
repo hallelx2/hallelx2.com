@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <JsonLd route={"/projects/bridgehook"} title={"BridgeHook — hallelx2 labs"} description={"Webhook observability with nothing installed: a public URL forwards Stripe or GitHub to your localhost because the browser tab is the tunnel agent, with the stream held in a Cloudflare Durable Object."} />
+      <JsonLd route={"/projects/bridgehook"} title={metadata.title as string} description={metadata.description as string} />
       <BridgehookView />
     </>
   );

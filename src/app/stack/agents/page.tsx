@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <JsonLd route={"/stack/agents"} title={"Agents, MCP and the design loop — hallelx2 labs"} description={"How AI sits inside the work: models behind a gateway rather than one vendor, MCP servers I write rather than only consume, standing skills instead of prompts, and why the OpenDesign flow beats the Claude Design one for this site."} />
+      <JsonLd route={"/stack/agents"} title={metadata.title as string} description={metadata.description as string} />
       <StackAgentsView />
     </>
   );

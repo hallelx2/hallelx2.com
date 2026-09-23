@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <JsonLd route={"/stack/postgres"} title={"Postgres, Drizzle and Hono — hallelx2 labs"} description={"The data and API layer: Drizzle over Postgres on Neon and Supabase, SQLite where the data belongs to one device, Hono as the server that runs in every runtime, and how the monorepos are laid out."} />
+      <JsonLd route={"/stack/postgres"} title={metadata.title as string} description={metadata.description as string} />
       <StackPostgresView />
     </>
   );

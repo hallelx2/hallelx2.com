@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <JsonLd route={"/design-system"} title={"hallelx2 labs — design system v10"} description={"The living gallery for the hallelx2 labs design system: tokens, contrast, type, components."} />
+      <JsonLd route={"/design-system"} title={metadata.title as string} description={metadata.description as string} />
       <DesignSystemView />
     </>
   );

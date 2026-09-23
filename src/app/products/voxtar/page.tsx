@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <JsonLd route={"/products/voxtar"} title={"Voxtar — hallelx2 labs"} description={"Voxtar is a clinical voice-biomarker platform from hallelx2 labs. Patients record short daily tasks in their own language; pyzheimer turns each one into acoustic measurements, builds a personal baseline, and flags drift from it."} />
+      <JsonLd route={"/products/voxtar"} title={metadata.title as string} description={metadata.description as string} />
       <VoxtarProductView />
     </>
   );

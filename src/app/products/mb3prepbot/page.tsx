@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <JsonLd route={"/products/mb3prepbot"} title={"MB3 Prepbot — hallelx2 labs"} description={"MB3 Prepbot is a daily exam-drill bot for MB BS Part III at UCH Ibadan, with 155 students, 71,377 marked answers and published figures on where it stalls."} />
+      <JsonLd route={"/products/mb3prepbot"} title={metadata.title as string} description={metadata.description as string} />
       <Mb3prepbotProductView />
     </>
   );

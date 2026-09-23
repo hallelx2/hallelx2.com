@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <JsonLd route={"/products/hypatia"} title={"Hypatia — hallelx2 labs"} description={"Hypatia teaches a new domain by mapping it onto one the learner already knows, then teaching exactly where that mapping breaks."} />
+      <JsonLd route={"/products/hypatia"} title={metadata.title as string} description={metadata.description as string} />
       <HypatiaProductView />
     </>
   );

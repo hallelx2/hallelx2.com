@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <JsonLd route={"/activity"} title={"Activity — hallelx2 labs"} description={"What I have shipped and when, generated from GitHub, PyPI, npm and the Go module proxy. 58 releases across 8 packages."} />
+      <JsonLd route={"/activity"} title={metadata.title as string} description={metadata.description as string} />
       <ActivityView />
     </>
   );

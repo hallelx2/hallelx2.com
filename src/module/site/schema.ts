@@ -128,6 +128,11 @@ const TECH_ARTICLE = /^\/stack\/|^\/projects\/|^\/how-i-work$/;
 /** Titles carry a " — hallelx2 labs" suffix; a breadcrumb leaf should not. */
 const leaf = (title: string) => title.replace(/\s+—\s+hallelx2 labs$/, "");
 
+/* Section indexes that are real pages. /projects deliberately is not one —
+   the ten products and projects share /products — so a /projects/<slug>
+   breadcrumb must not advertise a URL that 404s. */
+const SECTION_PAGES = new Set(["products", "stack", "training"]);
+
 function crumbs(route: string, title: string) {
   const parts = route.split("/").filter(Boolean);
   if (!parts.length) return null;
@@ -135,10 +140,12 @@ function crumbs(route: string, title: string) {
   let acc = "";
   parts.forEach((p, i) => {
     acc += `/${p}`;
+    const isLeaf = i === parts.length - 1;
+    if (!isLeaf && !SECTION_PAGES.has(p)) return;   // no page, no crumb
     items.push({
       "@type": "ListItem",
-      position: i + 2,
-      name: i === parts.length - 1 ? leaf(title) : p.replace(/-/g, " "),
+      position: items.length + 1,
+      name: isLeaf ? leaf(title) : p.replace(/-/g, " "),
       item: `${SITE}${acc}`,
     });
   });
@@ -165,6 +172,9 @@ export function graphFor(route: string, title: string, description: string) {
   };
   const bc = crumbs(route, title);
   if (bc) page.breadcrumb = bc;
+  /* Google wants ProfilePage.mainEntity to identify the subject, and being in
+     the same @graph is not itself a relationship — the link has to be stated.
+     Set after the type-specific nodes below so it can point at them. */
   nodes.push(page);
 
   const app = APPS[route];
@@ -178,10 +188,23 @@ export function graphFor(route: string, title: string, description: string) {
       applicationCategory: app.category,
       author: { "@id": PERSON_ID },
       publisher: { "@id": ORG_ID },
-      ...(app.language ? { programmingLanguage: app.language } : {}),
-      ...(app.repo ? { codeRepository: app.repo } : {}),
       ...(app.license ? { license: app.license } : {}),
+      ...(app.repo ? { isBasedOn: { "@id": `${url}#source` } } : {}),
     });
+    /* schema.org puts programmingLanguage and codeRepository on
+       SoftwareSourceCode, not SoftwareApplication. Emit the source node only
+       where there is a public repository to point it at. */
+    if (app.repo) {
+      nodes.push({
+        "@type": "SoftwareSourceCode",
+        "@id": `${url}#source`,
+        name: app.name,
+        codeRepository: app.repo,
+        ...(app.language ? { programmingLanguage: app.language } : {}),
+        ...(app.license ? { license: app.license } : {}),
+        author: { "@id": PERSON_ID },
+      });
+    }
   }
 
   if (route === "/writing") {
@@ -214,6 +237,13 @@ export function graphFor(route: string, title: string, description: string) {
       inLanguage: "en",
     });
   }
+
+  /* mainEntity points at whatever this page is primarily about: the person on
+     the profile, the software on a product page, the piece on an article page. */
+  if (route === "/about") page.mainEntity = { "@id": PERSON_ID };
+  else if (APPS[route]) page.mainEntity = { "@id": `${url}#software` };
+  else if (route === "/writing") page.mainEntity = { "@id": `${url}#blog` };
+  else if (TECH_ARTICLE.test(route)) page.mainEntity = { "@id": `${url}#article` };
 
   return { "@context": "https://schema.org", "@graph": nodes };
 }

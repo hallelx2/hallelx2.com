@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <JsonLd route={"/training/ai-in-practice-2026"} title={"AI in Practice, August 2026 — hallelx2 labs"} description={"AI in Practice, August 2026. 176 people signed up in a fortnight, every evening ran past its scheduled finish, and six in ten were still in the room when the clock said stop."} />
+      <JsonLd route={"/training/ai-in-practice-2026"} title={metadata.title as string} description={metadata.description as string} />
       <TrainingAiInPractice2026View />
     </>
   );

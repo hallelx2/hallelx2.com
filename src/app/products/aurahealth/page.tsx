@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <JsonLd route={"/products/aurahealth"} title={"AuraHealth — hallelx2 labs"} description={"AuraHealth is an early-stage hallelx2 labs healthcare product, in design and being prepared to pitch to a clinical team."} />
+      <JsonLd route={"/products/aurahealth"} title={metadata.title as string} description={metadata.description as string} />
       <AurahealthProductView />
     </>
   );

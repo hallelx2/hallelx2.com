@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <JsonLd route={"/products/coursified"} title={"Coursified — hallelx2 labs"} description={"Coursified turns free YouTube teaching into a structured course with graded labs — working code, a spreadsheet that reconciles, a deck that passes checks — and a certificate backed by what you actually produced."} />
+      <JsonLd route={"/products/coursified"} title={metadata.title as string} description={metadata.description as string} />
       <CoursifiedProductView />
     </>
   );

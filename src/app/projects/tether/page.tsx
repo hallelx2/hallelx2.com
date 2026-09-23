@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <JsonLd route={"/projects/tether"} title={"Tether — hallelx2 labs"} description={"Know where your things are. A Bun backend with zero dependencies, SSE instead of WebSockets, and a compare-and-swap that makes the lost update unexpressible."} />
+      <JsonLd route={"/projects/tether"} title={metadata.title as string} description={metadata.description as string} />
       <TetherView />
     </>
   );
