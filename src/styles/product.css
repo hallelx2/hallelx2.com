@@ -411,6 +411,10 @@ a.sq:hover .go{transform:translateX(3px)}
   background:rgba(255,255,255,.07);font-size:15px;line-height:1.45;
   color:oklch(86% .006 252)}
 .talk li b{display:block;color:#fff;font-weight:500;margin-bottom:3px}
+/* Inline code on the ink ground: the page-wide code chip is a pale --line fill,
+   which under white text on ink reads as a blank pill. Give it the ink's own
+   translucent step instead, so the identifier stays legible. */
+.talk code{background:rgba(255,255,255,.14);color:#fff}
 
 /* ── the detail drawer, for the reader who wants the table ───────────── */
 details.full{margin-top:10px;background:#fff;border-radius:var(--r);
