@@ -4,7 +4,7 @@ import JsonLd from "@/module/site/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "AuraHealth — hallelx2 labs",
-  description: "AuraHealth is an early-stage hallelx2 labs healthcare product, in design and being prepared to pitch to a clinical team.",
+  description: "AuraHealth is a hallelx2 labs healthcare product: voice triage and escrowed payment, built and running on Interswitch’s sandbox and being prepared to pitch to a hospital. No hospital uses it yet.",
 };
 
 export default function Page() {
