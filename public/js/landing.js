@@ -133,8 +133,8 @@
   var noEl  = deck && deck.querySelector('[data-no]');
   var totEl = deck && deck.querySelector('[data-tot]');
   var catEl = deck && deck.querySelector('[data-cat-label]');
-  var FILL = { hc:'var(--blue)', ed:'var(--green)', ai:'var(--slate)' };
-  var NAME = { hc:'Healthcare', ed:'Education', ai:'AI' };
+  var FILL = { mk:'var(--green)', pr:'var(--blue)', bd:'var(--slate)' };
+  var NAME = { mk:'On the market', pr:'Pilot and research', bd:'Building' };
   cards.forEach(function(c, i){ c.style.zIndex = String(i + 1); });
   if (totEl) totEl.textContent = ('0' + n).slice(-2);
 

@@ -103,6 +103,8 @@ const APPS: Record<string, App> = {
                              repo: "https://github.com/hallelx2/bridgehook", license: "https://opensource.org/licenses/MIT" },
   "/projects/mercala":     { name: "Mercala", category: "BusinessApplication", language: "Java" },
   "/projects/tether":      { name: "Tether", category: "UtilitiesApplication", language: "TypeScript" },
+  /* The repository is private, so no repo or licence link. */
+  "/projects/lorx":        { name: "Lorx", category: "DeveloperApplication", language: "Rust" },
 };
 
 /* ── the ten articles published on X ─────────────────────────────────

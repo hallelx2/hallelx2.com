@@ -227,4 +227,52 @@ page(
     "Everything that made a webhook tunnel feel like infrastructure &mdash; the binary, the daemon, the account &mdash; turned out to be removable. What is left is a page, a stream, and a database that remembers what came through.",
 )
 
-print("four project pages written")
+# ══ LORX ═════════════════════════════════════════════════════════════
+# Read from hallelx2/lorx on 2026-09-27 (HEAD 7821cfc). Counted with git ls-files
+# and git grep in the repo: 62,776 lines of Rust in 194 files, 404 test
+# functions, 200 commits from 2026-09-22 to 2026-09-27, 64 merged pull requests,
+# bit 0.1.3. crates/lorx-runner (5 lines) and crates/lorx-review (1 line) are
+# empty, so the hosted runner and the review engine are stated as not built.
+lorx_arch = arch([
+    [("bit", "the command line, a superset of git", "pale"),
+     ("Web and mobile", "Next.js, and Expo for iPhone and Android", "pale"),
+     ("Any git client", "unchanged", "pale")],
+    [("lorx serve", "one process: git, API, auth, merges", "accent")],
+    [("Git over HTTPS and SSH", "smart protocol", None),
+     ("Live events", "SSE from a durable outbox", None),
+     ("SQLite or Postgres", "SeaORM, same migrations", None)],
+], "Lorx architecture: the bit command line, the web and mobile apps and any git client talk to one lorx serve process, which serves git over HTTPS and SSH, streams live events from a durable outbox, and stores its records in SQLite or Postgres.")
+
+page(
+    "project-lorx.html",
+    "Lorx &mdash; hallelx2 labs",
+    "A git-compatible code forge in Rust: git hosting, change requests and a workflow engine in one lorx serve process, with the bit command line as a superset of git. Live at lorx.space.",
+    "lorx", "Developer tools &middot; Building &middot; Live", "Lorx",
+    "Your code, your change requests and your CI in one place you can run yourself.",
+    [("62,776", "lines of Rust across the server, the database layer, the workflow engine and <code>bit</code>"),
+     ("404", "tests, including ones that check each merge against git&rsquo;s own result"),
+     ("6", "platforms <code>bit</code> installs on: Linux and macOS on x86_64 and arm64, Windows on x64 and arm64")],
+    [
+        sec("01", "Why it exists", None,
+            '<div class="who" data-reveal><div class="bio"><p>Everything I build lives in git, and the code, the reviews and the CI all sit on one host. <b>When that host has a bad day, so does every project I have.</b> I wanted a forge I could run myself, that any git client already speaks to, and that runs CI the same way on my laptop as on the server.</p><p>So Lorx does not ask anyone to switch tools. Every repository is an ordinary git repository, served over smart HTTP and SSH, and <code>bit</code> passes any command it does not know straight to git. <code>bit status</code> is <code>git status</code>. What <code>bit</code> adds is what git cannot know: change requests, workflow runs and sign-in.</p></div></div>'),
+        sec("02", "The shape of it", "One process, and git as the wire format.",
+            f'<div class="arch" data-reveal>{lorx_arch}<p class="take">The server is <b>a single <code>lorx serve</code> process</b> on SQLite or Postgres, so a self-hosted forge is one binary and one file. The same codebase runs the hosted instance at <code>lorx.space</code>. The OpenAPI document is generated from the handlers, and a test fails when the committed copy drifts from them, which keeps the web and mobile clients honest.</p></div>'),
+        pull("A push from a terminal reaches an open stream within a second of git push returning. The tests measure it.",
+             "docs/ARCHITECTURE.md, on live events"),
+        sec("03", "What is built", "Measured from the repository on 27 September 2026.",
+            does([
+                ("Git over HTTPS and SSH", "Clone, fetch and push with any client, authenticated by token or by a key registered on the account."),
+                ("Change requests", "Merge, squash or rebase on the server, with no working tree. Each strategy&rsquo;s tree is tested against the local git command&rsquo;s."),
+                ("Auto-merge and revert", "Arm a request to merge itself when it can, with every client closed. Every merge records what it brought in, so it can be reverted."),
+                ("Import from GitHub", "<code>bit import github</code> brings pull requests across as change requests with the same numbers, so <code>#42</code> still means the same thing."),
+                ("Workflows that run locally", "<code>bit run</code> and <code>bit ci check</code> plan and run the workflows in <code>.lorx/actions/</code> on your own machine, with a step cache, so a failing check is found before the push."),
+                ("Branch rules and sign-in", "Rules on who may push where, checked in one place; device sign-in from the terminal; signed commits with an SSH key."),
+            ])),
+        sec("04", "Honest state", None,
+            '<div class="talk" data-reveal><h3>Six days old, live, and not finished.</h3><ul><li><b>Live</b><code>lorx.space</code> is up, <code>bit</code> 0.1.3 installs with one command, and plans are Free and Pro, with Pro sign-ups joining a waitlist.</li><li><b>200 commits in six days</b>From 22 to 27 September 2026, through 64 merged pull requests.</li><li><b>The hosted runner is not built</b>Workflows run locally through <code>bit</code>. The crate for running them on the server is empty, so there is no hosted CI yet.</li><li><b>The review engine is not built</b>It is designed, triggered by a change request opening and posting inline comments with severity, and its crate is empty.</li><li><b>Speed is the design, not yet the measurement</b>Warm microVMs, runners beside git storage and a content-addressed cache are in the design record. None of them is in the code yet, so no speed figure is claimed here.</li></ul></div>'),
+    ],
+    "Git was never the part that needed replacing.",
+    "What needed replacing was having one place to lose. Lorx keeps git exactly as it is and moves the rest &mdash; the change requests, the rules and the CI &mdash; somewhere you can run yourself.",
+)
+
+print("five project pages written")

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-linecap="round">
+<title>lorx — a branch leaving the trunk and landing again</title>
+<path d="M40 17A18 18 0 1 0 31 40.6" stroke-width="2.6"/>
+<path d="M17 11v19a6 6 0 0 0 6 6h13" stroke-width="3.4"/>
+<path d="M17 21c0 5.5 4 8 10 8" stroke-width="2.6"/>
+<circle cx="17" cy="11" r="3.6" fill="currentColor" stroke="none"/>
+<circle cx="37" cy="36" r="4.2" fill="currentColor" stroke="none"/>
+</svg>
