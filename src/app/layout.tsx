@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://hallelx2.com"),
   title: "hallelx2 labs",
   description:
-    "hallelx2 labs builds the products healthcare, education and the AI ecosystem need — six of them, on three open-source libraries we wrote and released, with every claim measured in public.",
+    "hallelx2 labs builds the products healthcare and education kept needing — ten of them, on open-source libraries we wrote and released, with every claim measured in public.",
   icons: { icon: "/assets/img/favicon.svg" },
   openGraph: {
     siteName: "hallelx2 labs",

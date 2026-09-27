@@ -24,7 +24,7 @@ export const person = {
   name: "Halleluyah Oludele",
   alternateName: ["hallelx2", "Oludele Halleluyah"],
   url: SITE,
-  jobTitle: "Full-stack and AI engineer",
+  jobTitle: "Founder, hallelx2 labs",
   description:
     "Full-stack engineer and final-year medical student who builds the products he needed — " +
     "across healthcare, education and the AI layer underneath them.",
